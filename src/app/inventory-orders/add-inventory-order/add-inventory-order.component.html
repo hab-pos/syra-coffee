@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div>
+    <div class="h-80 w-100">
+        <div class="title text-center sticky-top">
+            <button (click)="closeSidenav()" class='bg-transparent border-0 form-close-btn position-absolute'>
+                <fa-icon [icon]='close'></fa-icon>
+            </button>
+            Create Inventory Order
+        </div>
+
+        <div class="col-12 mt-35px px-0">
+            <div class="d-flex mx-35px justify-content-between">
+                <div>
+                    <div class="heading-text">Order Source</div>
+                    <div class="content-text mt-2">
+                        <mat-form-field appearance="outline" class="picker bg-white rounded shadow-sm branch_dropdown">
+                            <fa-icon [icon]="faMapMarkerAlt" class="pl-2 pr-3 position-relative"></fa-icon>
+                            <mat-select #dropDown name="branch" [(value)]="selectedValue" disableOptionCentering
+                                placeholder="Select Branch" multiple>
+                                <mat-option *ngFor="let branch of branches; index as i" [value]="branch._id"
+                                    (click)="select_branch(i)">
+                                    {{branch.branch_name}}
+                                </mat-option>
+                            </mat-select>
+                            <fa-icon [icon]="faChevronDown" class="position-absolute r-0"></fa-icon>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="heading-text">Request Date </div>
+                    <div class="content-text mt-2 d-flex align-items-center" style="height : calc(100% - 0.5rem - 20px)">{{this.today}}</div>
+                </div>
+            </div>
+
+            <div class="d-flex mx-35px mt-10px">
+                <div class="w-100">
+                    <div class="d-flex">
+                        <div class="heading-text mb-10px">Items</div>
+                        <button
+                            class="border_circle ml-auto bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                            (click)="sidenavnew_open()" style="font-size: 8px;">
+                            <fa-icon [icon]='faPlus'></fa-icon>
+                        </button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="mt-2" *ngIf="products.length > 0">
+                        <div class="row mx-0 align-items-center mb-1" *ngFor="let product of products,index as i">
+                            <div class="col-8 px-0 inventory-text">
+                                {{product.refernce.toUpperCase()}} - {{product.inventory_name}}
+                            </div>
+                            <div class="col-4 px-0">
+                                <div class="row mx-0 justify-content-around">
+                                    <div id="subract" class="d-flex align-items-center">
+                                        <div class="rounded-corner border-sm shadow-sm">
+                                            <button
+                                                class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                                (click)="minus(i)" style="font-size: 8px;">
+                                                <fa-icon [icon]='faMinus'></fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div id="qty" class="mx-2">
+                                        <div class="text-center inventory-text">{{product.qty}}</div>
+                                        <div class="text-center unit-text">{{product.unit}}</div>
+                                    </div>
+
+                                    <div id="add" class="d-flex align-items-center">
+                                        <div class="rounded-corner border-sm shadow-sm">
+                                            <button
+                                                class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                                (click)="add(i)" style="font-size: 8px;">
+                                                <fa-icon [icon]='faPlus'></fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line mt-2 mb-3" *ngIf="products.length > 0"></div>
+                    <div class="row mx-0 justify-content-between" *ngIf="products.length > 0">
+                        <div class="heading-text">
+                            TOTAL
+                        </div>
+                        <div class="heading-text">
+                            {{totalQty}}
+                        </div>
+                    </div>
+
+                    <div class="row mx-0 align-items-center justify-content-center w-100 bg-white mt-1"
+                        style="height:  150px;" *ngIf="products.length == 0">
+                        <div>
+                            <span class="col-12 text-center pb-3" style="font-size: 12px;">
+                                No Products Added
+                            </span>
+                            <span class="col-12 d-flex justify-content-center pt-3">
+                                <button (click)="sidenavnew_open()" class="text-center btn-success text-white px-3"
+                                    style="min-height : 28px;min-width : 100px; font-size: 12px; border-radius:  14px;">
+                                    Add Products </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="pt-3 header-text">Admin Comments</div>
+                    <textarea rows="4" class="comment-box bg-transparent w-100 mt-3 p-2 rounded-10px"
+                        placeholder="Add comments..." #textarea></textarea>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="h-20 button-list-bg-color">
+        <div class="row mx-0 justify-content-center align-items-center button-list-bg-color h-100">
+            <div class="col-12 py-auto d-flex justify-content-center">
+                <button type="submit" (click)="createOrder()" class="btn-success text-white">
+                    <i *ngIf="isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>ADD TO ORDERS</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

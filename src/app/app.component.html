@@ -1,0 +1,7 @@
+<app-side-bar class="mobile_{{isMobile}}"
+        *ngIf="current_url[1]!='paycomet-form' && current_url[1]!='' &&  current_url[1]!='login'  && current_url[1]!='404'"></app-side-bar>
+<app-app-header *ngIf="current_url[1]!='paycomet-form' && current_url[1]!='' &&  current_url[1]!='login'  && current_url[1]!='404'"></app-app-header>
+<ngx-spinner></ngx-spinner>
+<div  id = "app-wrapper" class="mt-85" [ngClass] = "[current_url[1]=='paycomet-form' || current_url[1]=='login' || current_url[1]=='' ? 'm-0' : 'ml-300',innerWidth <= 1024 ? 'ml-0' : 'ml-300',innerWidth <= 1024 && sidebar_opened ? 'position-relative nav__overlay' : '']">
+        <router-outlet></router-outlet>
+</div>

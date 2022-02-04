@@ -1,0 +1,171 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="w-100"> 
+  <div *ngIf="field != 'branch'" class="title text-center sticky-top">
+    <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+      <fa-icon [icon]='close'></fa-icon>
+    </button>
+
+    {{ field == 'main' && action == 'edit' && field != 'branch' ? 'EDIT MAIN ACCOUNT' :(field == 'user' && action ==
+    'add') ? 'ADD USER ACCOUNT' : 'EDIT USER ACCOUNT' }}
+  </div>
+
+  <div *ngIf="field == 'branch'" class="title text-center sticky-top">
+    <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+      <fa-icon [icon]='close'></fa-icon>
+    </button>
+    {{ field == 'branch' && action == 'add' ? 'ADD BRANCH' : 'EDIT BRANCH' }}
+  </div>
+  <div class="h75vh">
+    <form *ngIf="field == 'main'"  [formGroup]="adminform">
+      <div class="form-group mx-4 mt-5">
+        <div class="input-group ">
+          <label class="col-12 text-left  mx-0  p-0 ">Username</label>
+          <input type="text" class="form-control w-100" id="username" formControlName="user_name"
+            placeholder="syracoffe" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group mx-4">
+        <label class="col-12 text-left ml-2 mt-2 p-0 " for="passwordInput">Password</label>
+        <div class="input-group ">
+          <input type="{{password_type}}" class="form-control border-right-0" name="password" id="passwordInput"
+            placeholder="Enter your password" required formControlName="password">
+          <div class="input-group-append mt-2.5px ">
+            <span class="input-group-text pointer " id="visibility">
+              <fa-icon class="text-secondary" (click)="password_type='password'" *ngIf="password_type=='text'"
+                [icon]="faEye"></fa-icon>
+              <fa-icon class="text-secondary" (click)="password_type='text'" *ngIf="password_type=='password'"
+                [icon]="faEyeSlash"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form *ngIf="field == 'user'"  [formGroup]="userform">
+      <div class="form-group mx-4 mt-5">
+        <div class="input-group ">
+          <label class="col-12 text-left  mx-0  p-0 " for="name">Username</label>
+          <input type="text" class="form-control w-100" id="username" formControlName="user_name"
+            placeholder="syracoffe" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group mx-4">
+        <label class="col-12 text-left ml-2 mt-2 p-0 " for="passwordInput">Password</label>
+        <div class="input-group ">
+          <input type="{{password_type}}" class="form-control border-right-0" name="password" formControlName="password"
+            id="passwordInput" placeholder="Enter your password">
+          <div class="input-group-append mt-2.5px ">
+            <span class="input-group-text pointer " id="visibility">
+              <fa-icon class="text-secondary" (click)="password_type='password'" *ngIf="password_type=='text'"
+                [icon]="faEye"></fa-icon>
+              <fa-icon class="text-secondary" (click)="password_type='text'" *ngIf="password_type=='password'"
+                [icon]="faEyeSlash"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <form *ngIf="field == 'branch'" class="mb-5" [formGroup]="branchform">
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-0 mt-4 p-0 ">
+            <label>Branchname</label>
+          </div>
+          <input type="text" class="form-control w-100" id="branchname" placeholder="Gracia"
+            formControlName="branch_name" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class=" text-left  col-12 mx-0 mt-2 p-0 ">
+            <label>Device ID</label>
+          </div>
+          <input type="text" class="form-control w-100" id="deviceid" placeholder="C1JMP2JFD" autocomplete="off"
+            formControlName="device_id">
+        </div>
+      </div>
+
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class="row mx-0 col-12 p-0">
+            <div class=" text-left  col-6 mx-0 mt-2 p-0 ">
+              <label>Latitude</label>
+            </div>
+            <div class=" text-left  col-6 mx-0 mt-2 p-0 ">
+              <label>Longitude</label>
+            </div>
+          </div>
+          
+          <div class="row mx-0">
+            <div class="col-6 pl-0 pr-1">
+              <input type="text" class="form-control w-100" id="lat" placeholder="8.0244" autocomplete="off"
+              formControlName="lat">
+            </div>
+            <div class="col-6 pr-0 pl-1">
+              <input type="text" class="form-control w-100" id="lng" placeholder="78.0244" autocomplete="off"
+              formControlName="lng">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+            <mat-checkbox class="show_map_check" [checked] = "is_location_checked" (change) = "checkAction($event.checked)"><span style="font-family: 'CerebriSans-Regular';">Show Location on App</span></mat-checkbox>
+        </div>
+      </div>
+      <div class="form-group mx-4 ">
+        <div class="text-left col-12 mx-0 mt-4 p-0 ">
+          <label>Espresso Report day</label>
+        </div>
+        <div class="input-group ">
+          <mat-form-field appearance="outline" class="picker bg-white rounded shadow-sm branch_dropdown w-100" style="height: 42px;border-radius: 10px;">
+            <mat-select #dropDown name="reporting_day" [(value)]="selected_days" disableOptionCentering
+                placeholder="Update the Espresso reporting days!" multiple formControlName="espresso_report_day">
+                <mat-option *ngFor="let day of days; index as i" [value]="day" class = "text-capitalize">
+                    {{day}}
+                </mat-option>
+            </mat-select>
+            <fa-icon [icon]="faChevronDown" class="position-absolute r-0"></fa-icon>
+        </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="h25vh">
+    <div *ngIf="field == 'main'" class="col-12 py-3 d-flex justify-content-center">
+      <button (click)="edit_admin()" type="button" class="btn text-white btn-sm "> <i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3 "></i>SAVE</button>
+    </div>
+
+    <div *ngIf="field == 'branch'" class="col-12 py-3 d-flex justify-content-center ">
+      <button (click)="action == 'edit' ? edit_branch() : add_branch()" type="button"
+        class="btn text-white btn-sm  "> <i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>SAVE</button>
+    </div>
+
+    <div *ngIf="field == 'user' && action != 'edit'" class="col-12 py-3 d-flex justify-content-center"><button (click)="action == 'edit' ? edit_user() : add_user()"
+        type="button" class="btn text-white btn-sm "> <i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>SAVE</button>
+    </div>
+
+    <div  *ngIf="field == 'user' && action == 'edit'" class="row mx-0 justify-content-center align-items-center shadow-top"
+    style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+    <div class="col-12  d-flex justify-content-center {{action =='edit' ? 'py-3':'py-4'}}">
+        <button type="submit" (click)="action == 'edit' ? edit_user() : add_user()" class="btn text-white btn-sm">
+            <i *ngIf="isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>
+            <span>SAVE</span>
+        </button>
+    </div>
+    <div class="col-12 pb-3 d-flex justify-content-center pb-4">
+        <button (click)="deleteAction()" class="btn text-white" style="background-color: red;">
+            <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+            <span>DELETE USER</span>
+        </button>
+    </div>
+</div>
+
+  </div>
+</div>

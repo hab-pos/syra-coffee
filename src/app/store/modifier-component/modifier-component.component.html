@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="w-100 h-100 scroll_none">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'modifier' && action == 'add' ? 'ADD MODIFIER' : 'EDIT MODIFIER' }}
+    </div>
+    <form [formGroup]="modifierForm">
+        <div class="mx-2 {{action == 'edit'?'h-product-eidt':'h-product'}}">
+            <div class="form-row mx-3">
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                            <label>Name</label>
+                        </div>
+                        <input type="text" class="form-control w-100" placeholder="Enter name"
+                            formControlName="modifier_name">
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Price</label>
+                        </div>
+                        <div class="w-100">
+                            <input type="number" class="form-control w-100" placeholder="0,00" formControlName="price">
+                            <fa-icon [icon]='faEuroSign' class="position-absolute  text-dark"
+                                style="right: 20px;top: 58%;">
+                            </fa-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>IVA</label>
+                        </div>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #item placeholder="0.00%" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (input)="filter_items($event.target.value)" formControlName="iva">
+                            <mat-autocomplete #auto="matAutocomplete" class="option_down_line">
+                                <mat-option *ngFor="let option of ivas;let i = index;let last = last" [ngClass]="{'border_none': last === true }" [value] = "option.iva_percent_withSymbol"  (onSelectionChange)="optionSelected(option._id,option.iva_percent_withSymbol)">
+                                    {{option.iva_percent}}%
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Beans Value</label>
+                        </div>
+                        <div class="w-100">
+                            <input type="number" class="form-control w-100" placeholder="00" formControlName="beans">
+                            <fa-icon [icon]='faBolt' class="position-absolute  text-dark" style="right: 20px;top: 58%;">
+                            </fa-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="row mx-0 justify-content-center align-items-center shadow-top"
+                style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+                <div class="col-12 d-flex justify-content-center {{action =='edit' ? 'py-3':'py-4'}}">
+                    <button type="submit" (click)="saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf="isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center pb-4" *ngIf="field == 'modifier' && action == 'edit'">
+                    <button (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

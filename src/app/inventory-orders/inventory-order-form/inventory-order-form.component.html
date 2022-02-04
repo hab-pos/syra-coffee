@@ -1,0 +1,352 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="h-80" *ngIf='this.products?.length == 0'
+    class="bg-white d-flex align-items-center justify-content-center alpha50 content position-absolute left-0 top-0 w-100 h100vh">
+    Loading...
+</div>
+
+<div #tableView [ngClass]="this.products?.length > 0 ? 'd-block' : 'd-done'">
+
+    <div class="h-80 w-100">
+        <div class="title text-center sticky-top">
+            <button (click)="closeSidenav()" class='bg-transparent border-0 form-close-btn position-absolute'>
+                <fa-icon [icon]='close'></fa-icon>
+            </button>
+            ORDER
+        </div>
+
+        <div class="col-12 mt-35px px-0" #tableView>
+            <div class="d-flex mx-35px justify-content-between">
+                <div>
+                    <div class="heading-text">Order Source</div>
+                    <div class="content-text mt-2">{{order_info?.branch_info?.branch_name}}</div>
+
+                </div>
+                <div>
+                    <div class="heading-text">RequestDate </div>
+                    <div class="content-text mt-2">{{order_info?.created_date}}</div>
+                </div>
+            </div>
+
+            <div class="d-flex mx-35px mt-20px">
+                <div>
+                    <div class="heading-text">Comment</div>
+                    <div class="content-text mt-2 text-justify">
+                        {{(order_info?.comment_by_barista && order_info?.comment_by_barista != "") ?
+                        order_info.comment_by_barista : 'No comments'}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex mx-35px mt-10px">
+                <div class="w-100">
+                    <div class="d-flex">
+                        <div class="heading-text mb-10px">Items</div>
+                        <button
+                            class="border_circle ml-auto bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                            (click)="sidenavnew_open()" style="font-size: 8px;" *ngIf = "this.order_info?.status == 'pending' || this.order_info?.status == 'approved'">
+                            <fa-icon [icon]='faPlusCircle'></fa-icon>
+                        </button>
+                    </div>
+                    <div class="line"></div>
+                    <div class="mt-2">
+                        <div class="row mx-0 align-items-center mb-1" *ngFor="let product of products,index as i">
+                            <div class="col-8 px-0 inventory-text">
+                                {{product.refernce.toUpperCase()}} - {{product.inventory_name}}
+                            </div>
+                            <div class="col-4 px-0">
+                                <div class="row mx-0 justify-content-around">
+                                    <div id="subract" class="d-flex align-items-center">
+                                        <div class="rounded-corner border-sm shadow-sm">
+                                            <button
+                                                class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                                (click)="minus(i)" style="font-size: 8px;">
+                                                <fa-icon [icon]='faMinusCircle'></fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div id="qty" class="mx-2">
+                                        <div class="text-center inventory-text">{{product.qty}}</div>
+                                        <div class="text-center unit-text">{{product.unit}}</div>
+                                    </div>
+
+                                    <div id="add" class="d-flex align-items-center">
+                                        <div class="rounded-corner border-sm shadow-sm">
+                                            <button
+                                                class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                                (click)="add(i)" style="font-size: 8px;">
+                                                <fa-icon [icon]='faPlusCircle'></fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line mt-2 mb-3"></div>
+                    <div class="row mx-0 justify-content-between">
+                        <div class="heading-text">
+                            TOTAL
+                        </div>
+                        <div class="heading-text">
+                            {{totalQty}}
+                        </div>
+                    </div>
+
+                    <textarea rows="4" class="comment-box bg-transparent w-100 mt-3 p-2 rounded-10px"
+                        placeholder="Add comments..." #textarea>{{order_info?.admin_msg}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="h-20 button-list-bg-color">
+        <div class="row mx-0 justify-content-center align-items-center button-list-bg-color h-100">
+            <div class="col-12 py-auto d-flex justify-content-center"
+                *ngIf='order_info?.status != "delivered"'> <!-- && insert this condition after deliveres if needed "order_info?.status != "approved"" --> 
+                <button type="submit" (click)="acceptAction()" class="btn-success text-white">
+                    <i *ngIf="isLoadingAccept == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>APPROVE</span>
+                </button>
+            </div>
+            <div class="col-12 py-auto d-flex justify-content-center"
+                *ngIf='order_info?.status != "delivered" && order_info?.status != "declined"'>
+                <button (click)="declineAction()" class="btn-danger">
+                    <i *ngIf="isLoadingDecline == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>DECLINE</span>
+                </button>
+            </div>
+            <div class="col-12 py-auto d-flex justify-content-center" *ngIf = 'order_info?.status == "approved"'>
+                <button (click)="updateOrderAsDelivered()" class="border-left-0 border-right-0 border-top-0  bg-transparent" style="border-bottom-color: #ABE7C4;">
+                    <i *ngIf="isMarkDeliverdLoding == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span style = "color : #679187">MARK AS DELIVERED</span>
+                </button>
+            </div>
+            <div class="col-12 py-auto d-flex justify-content-center">
+                <button (click)="savePdf()" class="border-left-0 border-right-0 border-top-0  bg-transparent">
+                    <i *ngIf="isLoadingSavePdf == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>SAVE PDF</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div>
+    <div class="title text-center col-12 sticky-top">
+        <button (click)="toggle()" class='bg-transparent ml-2 border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        ORDER
+    </div>
+    <div class="col-12 mx-3">
+        <div class="row mt-4 mx-0">
+            <div class="col-6">
+                <div>
+                    <label>Order Source</label>
+                </div>
+                <div>
+                    <input type="text" autocomplete="off" placeholder="Diputacio" class="w-100">
+                </div>
+
+            </div>
+            <div class="col-6">
+                <div>
+                    <label>RequestDate </label>
+                </div>
+                <div>
+                    <input type="datetime" placeholder="03/11/2020">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mx-3">
+        <div class="text-left  mx-3 mt-4  ">
+            <label>Comment</label>
+        </div>
+    </div>
+    <div class="col-12 mx-3">
+        <div class="text-left  mt-1">
+
+            <label class="font-family px-3 pb-1">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore
+                et dolore magna
+                aliqua.
+            </label>
+
+        </div>
+    </div>
+
+    <div class="col-12 mx-4 ">
+        <table class="mx-2">
+            <thead class="mx-3 ml-4">
+                <tr>
+                    <th class="pb-1">Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="pt-3" *ngFor="let product of products, index as i">
+                    <td class="font_td pt-2 pb-2 ">{{product.product_name}} - {{product.refer_name}}</td>
+
+                    <td class="pl-3 px-2  pt-2">
+                        <button class=" mr-3  min_btn circle" (click)="minus(i)">-
+                        </button>
+                        {{product.quantity}}
+                        <button class=" ml-4  add_btn circle" (click)="add(i)">+
+                        </button>
+                        <div class="td_unit text-left">{{product.unit}}</div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="pt-2">TOTAL:</td>
+                    <td class="tfoot_td pl-5 pt-2">10</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="col-12 mx-4 mt-3">
+        <textarea class="text_area pl-0" rows="4" cols="43" placeholder="Add Comment...">
+        </textarea>
+    </div>
+    <div class="col-12 mt-3 ">
+        <div *ngIf=" status == 'pending' " class="form-group mx-4">
+            <button type="submit" class="btn text-white btn-sm" (click)="update_status()">APPROVE</button>
+        </div>
+
+        <div class="form-group mx-4">
+            <button printSectionId="demo" (click)="toggle()" type="submit" class="btn-dark" ngxPrint>SAVE
+                PDF</button>
+        </div>
+
+    </div>
+
+
+</div> -->
+
+
+
+<!-- 
+
+<div>
+    
+    <form class="mx-2" [formGroup]="catelougeForm" >
+        <div class="h75vh">
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                        <label>Name</label>
+                    </div>
+                    <input type="text" #product_name class="form-control w-100" placeholder="Enter name"
+                        formControlName="product_name">
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12  mt-2 p-0 ">
+                        <label>Reference</label>
+                    </div>
+                    <input type="text" #refernce_name class="form-control w-100" placeholder="AB1234"
+                        formControlName="refernce">
+                </div>
+            </div>
+
+            <div class="form-row mx-3">
+                <div class="form-group col-6 px-0 w-50">
+                    <div class="col-12 pl-0">
+                        <label>Unit</label>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #units placeholder="Bag(s)" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (input)="filter_units($event.target.value)"
+                                formControlName="units">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filtered_units" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group col-6 px-0  w-50">
+                    <div class="col-12 pr-0">
+                        <label>Price</label>
+                        <div class="col-12 px-0 w-100">
+                            <input type="number" #price class="form-control w-100" placeholder="EUR" style="padding-right: 30px;"  formControlName="price">
+                            <fa-icon [icon]='faEuroSign' class="position-absolute right-20 top-10 text-dark"></fa-icon>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12  p-0">
+                        <label>Category</label>
+                    </div>
+                    <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                        style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                        <input type="text" #category placeholder="BEDIBAS" aria-label="Number" matInput
+                            [matAutocomplete]="auto_unit" (input)="filter($event.target.value)"
+                            formControlName="category">
+                        <mat-autocomplete #auto_unit="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <button class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0" type="button"
+                            *ngIf="filteredOptions.length == 0 && category.value != ''" (click)="navigateCategory()">
+                            <fa-icon [icon]='faPlus'></fa-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12 mx-0 mt-2 p-0 ">
+                        <label>Available For</label>
+                    </div>
+                    <div class="line mt-2 "></div>
+                </div>
+            </div>
+
+
+            <div class="row mx-3 p-0 pb-3">
+                <div class="col-6  mx-0 p-0 " *ngFor="let branch of branches, index as i">
+                    <mat-checkbox [checked]=branch.is_active (change)=updateAllComplete(i,$event.checked)
+                        class="check w-100" disableRipple [matTooltip]="branch.branch_name"
+                        matTooltipClass="tooltip-list">
+                        {{branch.branch_name}}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="h25vh">
+            <div class="row mx-0 justify-content-center align-items-center">
+                <div class="col-12 py-3 d-flex justify-content-center">
+                    <button type = "submit"  (click)="field == 'editinv' ? editAction() : saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf = "isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center">
+                    <button *ngIf="field == 'editinv'" type = "button" (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf = "isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div> -->

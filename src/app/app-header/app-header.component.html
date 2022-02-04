@@ -1,0 +1,96 @@
+<div class="header container-fluid fixed-top">
+  <div class="row align-items-center">
+    <div class="row" style="margin-left: 2em; height: 86px;">
+      <button id="hamburger_btn" class="border border-0 bg-transparent shadow-none font-weight-light"
+        style="font-size : 20px;outline: none" (click)=openSideBar() [ngClass]="mobile > 1024 ? 'd-none' : ''">
+        <fa-icon [icon]="faBars"></fa-icon>
+      </button>
+      <span class="header-title">
+        <img src="{{url_logo}}" alt="" width="120">
+      </span>
+    </div>
+
+
+
+    <div class="ml-133 px-5" [ngClass]="mobile > 850 ? 'd-block' : 'd-none'">
+      <mat-form-field appearance="outline" floatLabel="never" class="picker bg-white rounded shadow-sm branch_dropdown"
+        (click)=picker.open()>
+        <mat-label class="calenderToday">{{matLabelTitle}}</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="From" disabled (dateChange)="addEvent()">
+          <input matEndDate formControlName="end" placeholder="To" disabled (dateChange)="addEvent()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matPrefix [for]="picker" class="primary-text-color"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker disabled="false" touchUi={{isMobileCalender}} (closed)="closedAction()"
+          (opened)="onOpen()">
+        </mat-date-range-picker>
+        <button class="border border-0 bg-transparent shadow-none font-weight-light position-absolute"
+        style="font-size : 13px;outline: none;top: 13px;right:0px" (click)="resetDatePicker($event)">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+      </mat-form-field>
+
+      <div style="display: none">
+        <div class="datepicker-footer" #datepickerFooter>
+          <button (click)="today()" class="dayMnthYrBtn">
+            Today
+          </button>
+          <button (click)="thisWeek()" class="dayMnthYrBtn">
+            This week
+          </button>
+          <button (click)="thisMonth()" class="dayMnthYrBtn">
+            This Month
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div [ngClass]="mobile > 850 ? 'd-block' : 'd-none'" class="menu">
+      <mat-form-field appearance="outline" class="picker bg-white rounded shadow-sm branch_dropdown"
+        *ngIf="getMultiEnable()">
+        <fa-icon [icon]="faMapMarkerAlt" size="md" class="pl-2 pr-3 position-relative primary-text-color"></fa-icon>
+        <mat-select #dropDown name="branch" [(value)]="selectedValue" (closed)="closed_branch()" multiple
+          disableOptionCentering placeholder="All branches">
+          <mat-option *ngFor="let branch of branches; index as i" [value]="branch._id" (click)="select_branch(i)">
+            {{branch.branch_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="picker bg-white rounded shadow-sm branch_dropdown"
+        *ngIf="!getMultiEnable()">
+        <fa-icon [icon]="faMapMarkerAlt" class="pl-2 pr-3 position-relative"></fa-icon>
+        <mat-select #dropDown name="branch" [(value)]="selectedValueSingle" disableOptionCentering
+          placeholder="All branches">
+          <mat-option *ngFor="let branch of branches; index as i" [value]="branch._id"
+            (click)="select_branch_single(i)">
+            {{branch.branch_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="mr-1 ml-auto" [ngClass]="mobile <= 850 ? 'd-block' : 'd-none'">
+      <button class="border-0 text-white shadow-sm exportMenu" (click)=picker.open()>
+        <fa-icon [icon]="faCalendarDay" class="pr-2 text-white"></fa-icon>
+      </button>
+    </div>
+
+    <div class="mr-1" [ngClass]="mobile <= 850 ? 'd-block' : 'd-none'">
+      <button class="border-0 text-white shadow-sm exportMenu" (click)=dropDown.open()>
+        <fa-icon [icon]="faMapMarkerAlt" class="pr-2 text-white"></fa-icon>
+      </button>
+    </div>
+
+    <div class="mr-5" [ngClass]="mobile > 850 ? 'ml-auto' : ''" *ngIf='mobile > 300'>
+      <button class="border-0 text-white shadow-sm d-flex justify-content-center align-items-center"
+        [ngClass]="mobile > 1024 ? 'exportBtn' : 'exportMenu'" (click)=exportAct()>
+        <img *ngIf="isLoading == true" src="{{url_loading}}" alt="" width="100" class="position-absolute"
+          style="right: 20px;">
+        <fa-icon [icon]="fa_download" class="px-2 text-white"></fa-icon>
+        <span *ngIf="mobile > 1024">Export</span>
+      </button>
+    </div>
+
+  </div>
+</div>

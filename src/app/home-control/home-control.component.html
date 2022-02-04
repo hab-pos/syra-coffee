@@ -1,0 +1,156 @@
+<div class="container wrapper">
+    <mat-sidenav-container class="bg-transparent">
+        <mat-sidenav #sidenav class="bg_color" [mode]="'over'" [position]='"end"'
+            [ngClass]="Pagewidth<576 ? 'w-100' : 'w-400px'" (opened)="push()" (closed)="closed()">
+                <app-featured-products-form [sidenav] = sidenav [fieldIndex] = selectedFieldIndex *ngIf = "field == 'featured_pdts'" [field]="field" [action]="action"></app-featured-products-form>
+                <app-events-form [sidenav] = sidenav *ngIf = "field == 'event'" [field]="field" [action]="action"></app-events-form>
+                <app-story-component [sidenav] = sidenav *ngIf = "field == 'story'" [field]="field" [action]="action"></app-story-component>
+            </mat-sidenav>
+        <mat-sidenav-content class="mb-5">
+            <div class="mx-4">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class='bg-white table-w-350-scroll'>
+                            <div class="col-12 text-center title sticky-top">
+                                <div class="row justify-content-center">
+                                    <span class="col-12">EVENTS</span>
+                                    <div class="ml-2 add-btn">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('event','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="isLoadingEvents == true"
+                                class="bg-white d-flex align-items-center justify-content-center z-index-1 alpha50 content position-absolute left-0 w100-30px h100-48px">
+                                Loading...
+                            </div>
+                            <div *ngIf="events.length == 0 && isLoadingEvents == false"
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: calc(100% - 55px);">
+                                No Events Found
+                            </div>
+                            <table mat-table [dataSource]="events" class="w-100 syra-table" *ngIf="events.length > 0">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{element.event_name}} <span *ngIf = "element.is_expired">-- (Expired)</span></td>
+                                </ng-container>
+                                <ng-container matColumnDef="icon">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element; let i = index" class="text-right">
+                                        <div class="ml-5">
+                                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="openSideBar('event','edit',i)">
+                                                <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                        aria-label="Example home icon">edit</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let row; columns: display_col" class="p-0"></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-6 h-100" [ngClass]="Pagewidth <= 1024 ? 'mt-4' : 'mt-0'">
+                        <div class='bg-white table-w-350-scroll'>
+                            <div class="col-12 text-center title sticky-top">
+                                <div class="row justify-content-center">
+                                    <span class="col-12">STORIES</span>
+                                    <div class="ml-2 add-btn">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('story','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isLoadingStories == true"
+                                class="bg-white d-flex align-items-center justify-content-center z-index-1 alpha50 content position-absolute left-0 w100-30px h100-48px">
+                                Loading...
+                            </div>
+                            <div *ngIf="stories.length == 0 && isLoadingStories == false"
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: calc(100% - 55px);">
+                                No Stories Found
+                            </div>
+
+                            <table mat-table [dataSource]="stories" class="w-100 syra-table" *ngIf="stories.length > 0">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{element.title}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="icon">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element;let i = index" class="text-right">
+                                        <div class="ml-5">
+                                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="openSideBar('story','edit',i)">
+                                                <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                aria-label="Example home icon">edit</mat-icon>                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let row; columns: display_col" class="p-0"></tr> 
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <div class='bg-white table-w-350-scroll'>
+                            <div class="col-12 text-center title sticky-top">
+                                <div class="row justify-content-center">
+                                    <span class="col-12 ml-2">FEATURED PRODUCTS</span>
+                                     <div class="ml-2 add-btn">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('featured_pdts','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="isLoadingFeaturedPdts == true"
+                                class="bg-white d-flex align-items-center justify-content-center z-index-1 alpha50 content position-absolute left-0 w100-30px h100-48px">
+                                Loading...
+                            </div>
+
+                            <div *ngIf="featured_pdts.length == 0 && isLoadingFeaturedPdts == false"
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: calc(100% - 55px);">
+                                No Featured product Found
+                            </div>
+
+                            <table #table mat-table [dataSource]="featured_pdts" class="w-100 syra-table"
+                                *ngIf="featured_pdts.length > 0">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element" class="w-36">
+                                        {{element.product_name}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="icon">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let element;let i = index" class="text-right">
+                                        
+                                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="openSideBar('featured_pdts','edit', i)">
+                                                <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                aria-label="Example home icon">edit</mat-icon> 
+                                            </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let row; columns: display_col;let i = index"
+                                    class="p-0">
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

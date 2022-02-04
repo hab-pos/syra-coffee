@@ -1,0 +1,16 @@
+@import "../../public/Colors/colors";
+@import "../../public/Fonts/fonts";
+
+.wrapper {
+    margin-top: 130px;
+    font-family: $CerebriSans_bold;
+}
+
+.table-w-350-scroll {
+    height: 76vh;
+    overflow: auto;
+}
+.h-76-60{
+    height: calc(76vh - 60px);
+    flex: 1;
+}

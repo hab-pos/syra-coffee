@@ -1,0 +1,375 @@
+<div class="row mx-md-5 mx-sm-2">
+    <div class="col-12 pl-30 w-100 pr-30 pt-30">
+        <div class="row mx-0">
+            <div class="col-7 px-0">
+                <div class="dahsh-board-title mb-2">Welcome Back</div>
+                <div class='statistics-info'>Here are your stats for {{toDate}}</div>
+            </div>
+            <div class="col-5 d-flex align-items-center justify-content-end px-0">
+                <span class="text-center mr-2 tax-included">Sin I.V.A</span>
+                <mat-slide-toggle disableRipple class="iva_slide" checked=true (change)="toggle($event)">
+                </mat-slide-toggle>
+                <span class="text-center ml-2 tax-included">Con I.V.A</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 pl-30 pr-30 pt-30 w-100">
+        <div class="row justify-content-between mx-0">
+            <div class="col-lg-4 col-md-12 pl-0 pr-lg-3 pr-md-0 pr-sm-0">
+                <div class="col-12 bg-white mb-md-3 px-0 shadow-sm" style="height: 230px">
+                    <div class="col-12 px-0 h-50">
+                        <div class="col-12 d-flex pt-3 justify-content-center font-14px syra-font-primary-Regular">
+                            {{billing.title}}
+                        </div>
+                        <div class="col-12 d-flex pt-3 justify-content-center syra-font-primary-bold"
+                            style="font-size: 28px;">
+                            <span>€{{WithIvaSelected ? billing?.amount || "0.00" : billing?.amount_without_iva ||
+                                "0.00"}}</span>
+                        </div>
+                        <div>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':billing.info.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='billing.info.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='billing.info.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-14px"
+                                    [ngClass]='billing.info.financial_stmt == "profit" ? "text-profit": "text-loss"'
+                                    style="font-family: 'CerebriSans-Regular';">
+
+                                    {{billing.info.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{ WithIvaSelected ? billing?.info.percent || "0.00" :
+                                    billing.info_wo_iva?.percent || "0.00"}}% <span style="color: #4a4a4a;"> VS. €{{
+                                        WithIvaSelected ? billing.info?.prev_amount || "0.00" :
+                                        billing.info_wo_iva?.prev_amount || "0.00"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0 h-50">
+                        <ejs-chart #chart_billings [primaryXAxis]='primaryXAxisCummulative'
+                            [primaryYAxis]='primaryYAxis' id="chart-billing" [chartArea]='chartArea'
+                            style="width: 100%; height: 100%;" background="transparent" [zoomSettings]='zoomSettings'
+                            [tooltip]="tooltipGlobal" *ngIf="billing_graph_Data.length > 0">
+                            <e-series-collection>
+                                <e-series [dataSource]='billing_graph_Data' type='Area' xName='time_slot'
+                                    yName='total_price' fill='#264E70'>
+                                </e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+
+                        <div *ngIf="billing_graph_Data.length == 0 && isLoadingReport == false"
+                            class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                            No Plots :(
+                        </div>
+                        <div *ngIf="isLoadingReport == true"
+                        class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                        Loading...
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 px-md-0">
+                <div class="col-12 bg-white mb-md-3 px-0 shadow-sm" style="height: 230px">
+                    <div class="col-12 px-0 h-50">
+                        <div class="col-12 d-flex pt-3 justify-content-center font-14px syra-font-primary-Regular">
+                            {{transaction.title}}
+                        </div>
+                        <div class="col-12 d-flex pt-3 justify-content-center syra-font-primary-bold"
+                            style="font-size: 28px;">
+                            <span>{{transaction.amount}}</span>
+                        </div>
+                        <div>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':transaction.info.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='transaction.info.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='transaction.info.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-14px"
+                                    [ngClass]='transaction.info.financial_stmt == "profit" ? "text-profit": "text-loss"'
+                                    style="font-family: 'CerebriSans-Regular';">
+
+                                    {{transaction.info.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{ transaction.info.percent}}% <span style="color: #4a4a4a;">
+                                        VS.{{transaction.info.prev_amount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0 h-50">
+                        <ejs-chart #chart_transaction [primaryXAxis]='primaryXAxisCummulative'
+                            [primaryYAxis]='primaryYAxis' id="chart_transaction" [chartArea]='chartArea'
+                            style="width: 100%; height: 100%;" background="transparent" [zoomSettings]='zoomSettings'
+                            [tooltip]="tooltipGlobal" *ngIf="billing_graph_Data.length > 0">
+                            <e-series-collection>
+                                <e-series [dataSource]='billing_graph_Data' type='Area' xName='time_slot' yName='count'
+                                    fill='#264E70'>
+                                </e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+
+                        <div *ngIf="billing_graph_Data.length == 0 && isLoadingReport == false"
+                            class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                            No Plots :(
+                        </div>
+                        <div *ngIf="isLoadingReport == true"
+                            class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                           Loading...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 pr-0 pl-lg-3 pl-md-0 pl-sm-0">
+                <div class="col-12 bg-white mb-md-0 px-0 shadow-sm" style="height: 230px">
+                    <div class="col-12 px-0 h-50">
+                        <div class="col-12 d-flex pt-3 justify-content-center font-14px syra-font-primary-Regular">
+                            {{tickets.title}}
+                        </div>
+                        <div class="col-12 d-flex pt-3 justify-content-center syra-font-primary-bold"
+                            style="font-size: 28px;">
+                            <span>€{{ WithIvaSelected ? tickets?.amount || "0.00" : tickets?.amount_without_iva ||
+                                "0.00"}}</span>
+                        </div>
+                        <div>
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':tickets.info.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='tickets.info.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='tickets.info.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-14px"
+                                    [ngClass]='tickets.info.financial_stmt == "profit" ? "text-profit": "text-loss"'
+                                    style="font-family: 'CerebriSans-Regular';">
+
+                                    {{tickets.info.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{WithIvaSelected ? tickets?.info.percent || "0.00" :
+                                    tickets.info_wo_iva?.percent || "0.00"}}% <span style="color: #4a4a4a;">
+                                        VS.{{WithIvaSelected ? tickets.info?.prev_amount || "0.00" :
+                                        tickets.info_wo_iva?.prev_amount || "0.00"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0 h-50">
+                        <ejs-chart #chart_tickets [primaryXAxis]='primaryXAxisCummulative' [primaryYAxis]='primaryYAxis'
+                            id="chart_tickets" [chartArea]='chartArea' style="width: 100%; height: 100%;"
+                            background="transparent" [zoomSettings]='zoomSettings' [tooltip]="tooltipGlobal"
+                            *ngIf="billing_graph_Data.length > 0">
+                            <e-series-collection>
+                                <e-series [dataSource]='billing_graph_Data' type='Area' xName='time_slot' yName='ticket'
+                                    fill='#264E70'>
+                                </e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+
+                        <div *ngIf="billing_graph_Data.length == 0 && isLoadingReport == false"
+                            class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                            No Plots :(
+                        </div>
+                        <div *ngIf="isLoadingReport == true"
+                            class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 pl-30 pt-0 w-100 pr-30">
+        <div class="row mx-0 bg-white shadow-sm position-relative" *ngIf = "isLoadingGrpah == false">
+            <div class="position-absolute t-0 l-0 w-100 h-10px arrow" style="background-color: #264E70;"></div>
+            <div class="col-lg-8 col-md-12 col-sm-12 px-0 h-365px pt-5" *ngIf="graphData.length > 0 && isLoadingGrpah == false">
+                <ejs-chart #chart_cummulative [primaryXAxis]='primaryXAxis' [primaryYAxis]='primary_stacked_col_y'
+                    id="chart_cummulative" [chartArea]='chartArea' style="width: 100%; height: 100%;"
+                    [zoomSettings]='zoomSettings' [tooltip]="tooltipGlobal" (load)='load($event)'>
+                    <e-series-collection>
+                        <e-series *ngFor="let item of graphData,index as i" [dataSource]='item' type='StackingColumn'
+                            xName='hour' yName='amount' fill='{{pallets[i]}}' columnWidth='0.45'>
+                        </e-series>
+                    </e-series-collection>
+                </ejs-chart>
+            </div>
+
+            <div class="col-lg-4 col-sm-12 col-md-12 px-5 pt-5 h-365px" *ngIf="graphData.length > 0">
+                <div class="col-12" style="overflow: auto;">
+                    <div class="row mx-0 pb-3" *ngFor="let item of branch_sales">
+                        <div class="square-20" [ngStyle]="{'background-color': item.color}"></div>
+                        <span class="pl-3" style="font-family: 'CerebriSans-Bold';">{{item.branch}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="graphData.length == 0 && isLoadingGrpah == false"
+            class="bg-white syra-font-primary-Regular shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365px">
+            No Transaction :(
+        </div>
+        <div *ngIf="isLoadingGrpah == true"
+            class="bg-white syra-font-primary-Regular shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365px">
+            Loading...
+        </div>
+        <div class="col-12 w-100 px-0 pt-3 pb-30">
+            <div class="w-100 d-flex mx-0 mt-3 shadow-sm" *ngFor='let item of branch_sales, index as i'>
+                <div #leftdiv id='left-div'
+                    class="small_text_logo d-flex align-items-center justify-content-center text-white syra-font-primary-bold font-14px"
+                    [ngStyle]="{'background-color': item.color,'max-width': '35px','max-height' : renderHeight,'cursor' : 'pointer'}"
+                    [matTooltip]="item.name" matTooltipClass="tooltip-list">
+                    <div class="my-3 text-truncate">{{item.branch}}</div>
+                </div>
+                <div #rightdiv
+                    class="attendance_list row mx-0 bg-white py-2 pr-45 pl-4 justify-content-around justify-content-sm-between">
+                    <div class='row mx-0 px-0 bg-white border syraBranchCell m-2'>
+                        <div class="col-12 px-0 pt-2 font-9 syra-font-primary-bold">Clients</div>
+                        <div class="col-12 font-20px syra-font-primary-bold"><span
+                                class="h-100">{{item.clientInfo.count}}</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':item.clientInfo.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='item.clientInfo.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='item.clientInfo.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-12px"
+                                    [ngClass]='item.clientInfo.financial_stmt == "profit" ? "text-profit": "text-loss"'>
+                                    {{item.clientInfo.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{item.clientInfo.percent}}%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='row mx-0 px-0 bg-white border syraBranchCell m-2'>
+                        <div class="col-12 px-0 pt-2 font-9 syra-font-primary-bold">Expenses</div>
+                        <div class="col-12 font-20px syra-font-primary-bold">
+                            <span>{{item.expenses.amount}}€</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':item.expenses.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='item.expenses.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='item.expenses.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-12px"
+                                    [ngClass]='item.expenses.financial_stmt == "profit" ? "text-profit": "text-loss"'>
+                                    {{item.expenses.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{item.expenses.percent}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row mx-0 px-0 bg-white border syraBranchCell m-2'>
+                        <div class="col-12 px-0 pt-2 font-9 syra-font-primary-bold">Avg Tkt con IVA</div>
+                        <div class="col-12 font-20px syra-font-primary-bold">
+                            <span>{{item.avg_tkt_without_tax.amount}}€</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':item.avg_tkt_without_tax.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='item.avg_tkt_without_tax.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='item.avg_tkt_without_tax.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-12px"
+                                    [ngClass]='item.avg_tkt_without_tax.financial_stmt == "profit" ? "text-profit": "text-loss"'>
+                                    {{item.avg_tkt_without_tax.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{item.avg_tkt_without_tax.percent}}%</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='row mx-0 px-0 bg-white border syraBranchCell m-2'>
+                        <div class="col-12 px-0 pt-2 font-9 syra-font-primary-bold">Sales con IVA</div>
+                        <div class="col-12 font-20px syra-font-primary-bold">
+                            <span>{{item.avg_tkt_wit_tax.amount}}€</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':item.avg_tkt_wit_tax.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='item.avg_tkt_wit_tax.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='item.avg_tkt_wit_tax.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-12px"
+                                    [ngClass]='item.avg_tkt_wit_tax.financial_stmt == "profit" ? "text-profit": "text-loss"'>
+                                    {{item.avg_tkt_wit_tax.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{item.avg_tkt_wit_tax.percent}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row mx-0 px-0 bg-white border syraBranchCell m-2'>
+                        <div class="col-12 px-0 pt-2 font-9 syra-font-primary-bold">Sales sin IVA</div>
+                        <div class="col-12 font-20px syra-font-primary-bold">
+                            <span>{{item.net_profit.amount}}€</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2"
+                                        [ngStyle]="{'transform':item.net_profit.financial_stmt === 'profit' ? 'rotate(-125deg)' : 'rotate(-45deg)' }"
+                                        [ngClass]='item.net_profit.financial_stmt == "profit" ?  "bg-profit" : "bg-loss"'>
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center justify-content-center h-100"
+                                            style="font-size: 12px;"
+                                            [ngClass]='item.net_profit.financial_stmt == "profit" ?  "text-white" : "text-loss"'>
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto font-12px"
+                                    [ngClass]='item.net_profit.financial_stmt == "profit" ? "text-profit": "text-loss"'>
+                                    {{item.net_profit.financial_stmt == "profit" ? '+' :
+                                    '-'}}{{item.net_profit.percent}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

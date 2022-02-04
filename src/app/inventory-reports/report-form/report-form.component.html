@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="h-80" *ngIf='isLoading'
+    class="bg-white d-flex align-items-center justify-content-center alpha50 content position-absolute left-0 top-0 w-100 h100vh">
+    Loading...
+</div>
+<div class="w-100" *ngIf='!isLoading'>
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.toggle()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        <div>
+            Edit Entry
+        </div>
+    </div>
+
+    <div class="h75vh">
+        <form class="mb-5" [formGroup]="entryForm">
+            <div class="form-group mx-4 ">
+                <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                    <label>Weekly shipping</label>
+                </div>
+                <input type="number" formControlName="weekly_shipping" class="form-control w-100"
+                    placeholder="Enter value" autocomplete="off" value="{{this.dataToGetPassed?.weekly_shipped}}">
+            </div>
+
+            <div class="form-group mx-4 ">
+                <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                    <label>Final Remaining</label>
+                </div>
+                <input type="number" formControlName="final_remaining" class="form-control w-100" 
+                    placeholder="Enter value" autocomplete="off" value="{{this.dataToGetPassed?.final_remaining == -1 ? '-' : this.dataToGetPassed?.final_remaining}}">
+            </div>
+        </form>
+    </div>
+
+    <div class="h25vh">
+        <div class="row mx-0 justify-content-center align-items-center">
+            <div class="col-12 py-3 d-flex justify-content-center">
+                <button type="submit" (click)="saveAction()" class="btn text-white btn-sm">
+                    <i *ngIf="isLoadingSave == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>SAVE</span>
+                </button>
+            </div>
+
+            <div class="col-12 pb-3 d-flex justify-content-center">
+                <button type="button" (click)="deleteAction()" class="btn-danger">
+                    <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>DELETE ITEM</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

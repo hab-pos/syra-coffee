@@ -1,0 +1,164 @@
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.wrapper {
+  margin-top: 130px;
+  font-family: "CerebriSans-Bold";
+}
+
+.table-w-350-scroll {
+  height: 76vh !important;
+  overflow: auto;
+}
+
+.h76-60px {
+  height: calc(76vh - 60px);
+  overflow: hidden;
+}
+
+.bg-pending {
+  background-color: #ab9cea;
+}
+
+.bg-approved {
+  background-color: #abe7c4;
+}
+
+.bg-declained {
+  background-color: red;
+}
+
+.bg-delivered {
+  background-color: #d90368;
+}
+
+.p-5px {
+  padding: 5px;
+}
+
+.rounded-10px {
+  border-radius: 10px;
+}
+
+.w-385 {
+  width: 450px;
+}
+
+.w-500 {
+  width: 65vw;
+  transition: 0.1s ease;
+}
+
+.column-reverse {
+  flex-direction: row-reverse !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.inventory_width {
+  width: 450px !important;
+}
+
+.addproduct_width {
+  width: calc(100% - 450px) !important;
+}
+
+@media (max-width: 992px) {
+  .inventory_width {
+    display: none !important;
+  }
+
+  .addproduct_width {
+    width: unset !important;
+  }
+
+  .w-500 {
+    width: 100% !important;
+  }
+}
+::ng-deep .my-checkbox_select .mat-checkbox-label {
+  width: 100% !important;
+}
+
+::ng-deep .my-checkbox_select .mat-checkbox-layout {
+  width: 100% !important;
+}
+
+::ng-deep .my-checkbox_select .mat-checkbox-inner-container {
+  width: 17.5px !important;
+  height: 17.5px !important;
+  margin-right: 0px !important;
+  box-shadow: 0 2.5px 2.5px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+::ng-deep .my-checkbox_select .mat-checkbox-background,
+.mat-checkbox-frame {
+  border-radius: 5px !important;
+}
+
+::ng-deep .my-checkbox_select.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background,
+.mat-accent .mat-pseudo-checkbox-checked,
+.mat-accent .mat-pseudo-checkbox-indeterminate,
+.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-indeterminate {
+  background-color: transparent !important;
+}
+
+::ng-deep .my-checkbox_select .mat-ripple-element {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: transparent !important;
+}
+
+::ng-deep .my-checkbox_select .mat-checkbox-checkmark-path {
+  stroke: black !important;
+}

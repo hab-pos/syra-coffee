@@ -1,0 +1,96 @@
+@import "../../../public/Colors/colors";
+@import "../../../public/Fonts/fonts";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+
+
+.p-a{    
+    z-index:1 !important;
+    background-color: white;
+    height: 85vh;
+    overflow: auto;
+}
+.w85h-15{
+    z-index:1 !important;
+    background-color: white;
+    height: calc(100% - 85vh - 0.25rem)
+}
+.bg-background{
+    background-color: #f0f0f0;
+}
+.tab-title{
+    font-size: 14px;
+    color:#4A4A4A;
+    font-family: $CerebriSans_bold;
+}
+.line_add_product{
+    height: 2px;
+    width: 100%;    
+    background-color: #707070;
+}
+.unit-text{
+    color : #4a4a4a;
+    font-size: 10px;
+    font-family: $CerebriSans_Light;
+}
+.w-25px{
+    width: 17px;
+}
+.h-25px{
+    height: 17px;
+}
+.rounded-corner{
+    border-radius: 50%;
+}
+.inventory-text{
+    color: #4a4a4a;
+    font-size: 13.5px;
+    line-break:anywhere;
+    font-family: $CerebriSans_semibold;
+    
+}
+.heading-text {
+    color : #4a4a4a;
+    font-family: $CerebriSans_bold;
+    font-size: 15px;
+}
+
+.mt-10px {
+    margin-top: 10px
+}
+.mb-10px{
+    margin-bottom: 10px;
+}
+.rounded-corner{
+    border-radius: 50%;
+}
+
+.border-sm{
+    border-style: solid;
+    border-width: 1.8px;
+    border-color: #4a4a4a;
+}
+.b-shadow{
+    box-shadow: 0 3px 6px 0 rgb(20 20 20 / 16%);    
+}
+@media(max-width:992px){
+    .tab-title{
+        font-size:13px !important;
+    }
+}
+.btn-success {
+    background-color: #679187;
+    border-radius: 0px;
+    border-style: none;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    min-width: 240px;
+    min-height: 40px;
+    &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+    &:hover{
+        opacity: 0.9;
+    }
+}

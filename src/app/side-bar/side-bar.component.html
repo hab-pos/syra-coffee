@@ -1,0 +1,72 @@
+<div class="wrapper d-flex position-relative">
+    <div class="sidebar position-fixed" id="sidebar"
+        [ngClass]="innerWidth <=1024 ? 'inactive_Sidebar' : 'active_sidebar'">
+        <ul class="bg-transparent">
+            <li>
+                <a routerLink="/dashboard"
+                    class="primary-text-color font-9 font-weight-bold list-group-item text-left bg-transparent border-0 d-block position-relative text-decoration-none"
+                    (click)="setSelectedMenu('dashboard')"
+                    [ngClass]="(current_url[1] == 'dashboard') && (selectedMenu != 'logout')?'highlight':''">
+                    <fa-icon [icon]="faMeterialDashboard"></fa-icon>
+                    <span class="ml-17">DASHBOARD</span>
+                </a>
+            </li>
+
+            <li>
+                <a routerLink="/crm"
+                    class="primary-text-color font-9 font-weight-bold list-group-item text-left bg-transparent border-0 d-block position-relative text-decoration-none"
+                    (click)="setSelectedMenu('crm')"
+                    [ngClass]="(current_url[1] == 'crm') && (selectedMenu != 'logout')?'highlight':''">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                    <span class="ml-17">CRM</span>
+                </a>
+            </li>
+            <li>
+                <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeChange($event)"
+                    activeIds="{{selectedSection}}">
+                    <ngb-panel *ngFor="let menu of sideMenuOptions" id="ngb-panel-{{sideMenuOptions.indexOf(menu)}}">
+                        <ng-template ngbPanelHeader>
+                            <div class="d-flex align-items-center border-0 list-group-item text-left bg-transparent justify-content py-0"
+                                [ngClass]="(current_url[1]?.replace('-',' ') == menu.mainMenu.toLowerCase()) ?'highlight':''">
+                                <button ngbPanelToggle class="ml-4 font-9 font-weight-bold btn container-fluid text-left sub-menu-header"
+                                    style="padding: 0px;height : 48px">
+                                    <fa-icon [icon]="menu.icon" class="arrow-left position-absolute" style="left:48px">
+                                    </fa-icon>
+                                    <span class="ml-7">{{menu.mainMenu}}</span>
+                                    <fa-icon class="position-absolute"
+                                        [icon]="selectedSection == 'ngb-panel-'+sideMenuOptions.indexOf(menu) ? faChevronUp : faChevronDown"
+                                        style="right : 20px">
+                                    </fa-icon>
+                                </button>
+                            </div>
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <ul>
+                                <div *ngFor="let subItem of menu.subMenu">
+                                    <li>
+                                        <a routerLink="{{subItem.route}}"
+                                            class="sub-menu primary-text-color border-0 font-9 d-block position-relative text-decoration-none"
+                                            [ngClass]="(current_url[2].replace('-',' ') == subItem.title.toLowerCase()) ?'highligtSubmenu font-weight-bold':''">
+                                            <fa-icon [icon]="faLine" class=verticalline></fa-icon>
+                                            <fa-icon [icon]="faCircle" style="font-size: 10px;"></fa-icon>
+                                            <span class="ml-4 mt-1">{{subItem.title}}</span>
+                                        </a>
+                                    </li>
+                                </div>
+                            </ul>
+                        </ng-template>
+                    </ngb-panel>
+                </ngb-accordion>
+            </li>
+            <li>
+                <button
+                    class="primary-text-color font-weight-bold font-9 list-group-item text-left bg-transparent border-0 d-block position-relative text-decoration-none"
+                    (click)="setSelectedMenu('logout')" [ngClass]="(selectedMenu == 'logout')?'highlight':''">
+                    <fa-icon [icon]="faSignOutAlt"></fa-icon>
+                    <span class="ml-17">LOGOUT</span>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>

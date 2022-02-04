@@ -1,0 +1,29 @@
+@import "../../public/Colors/colors";
+@import "../../public/Fonts/fonts";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+.info {
+  font-family: $CerebriSans_Regular;
+  font-size: 15px;
+}
+
+.h-125{
+  height: 120px;
+}
+.h-78vh{
+  max-height: calc(74vh - 120px - 1.5rem);
+  overflow: auto;
+}
+
+.h-78{
+  max-height: 74vh;
+  overflow : auto;
+}
+.wrapper {
+  margin-top: 130px;
+  font-family: $CerebriSans_bold;
+}
+
+// :ng-deep .branch_id .ml-5 {
+//   margin-left: 1rem !important;
+// }

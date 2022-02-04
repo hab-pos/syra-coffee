@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="w-100 h-100 scroll_none">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'category' && action == 'add' ? 'ADD CATEGORY' : 'EDIT CATEGORY' }}
+    </div>
+    <form [formGroup]="categoryForm">
+        <div class="mx-2 {{action == 'edit'?'h-category-eidt':'h-category'}}">
+            <div class="form-row mx-3 mt-3">
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                            <label>Name</label>
+                        </div>
+                        <input type="text" class="form-control w-100" placeholder="Enter name" formControlName="category_name">
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100 mt-lg-3">
+                    <div class="input-group img-upload">
+                        <div class="w-100 z-ind1">
+                            <p class="mb-0 img-head text-center py-3">ICON</p>
+                        </div>
+                        <div class="h-200 bg-white-img w-100 d-flex align-items-center px-lg-5 px-4" *ngIf="isLoadingUpload == false">
+                            <div class="">
+                                <img [src]="imgURL" height="88" class="category-img-width" *ngIf="imgURL">
+                                <div class="border-dotted event-img-box d-flex justify-content-center align-items-center"
+                                    *ngIf="!imgURL">Upload</div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-end">
+                                <!-- <span style="color:red;" *ngIf="message">{{message}}</span> -->
+                                <label class="upload-png px-3 justify-content-end">Upload PNG
+                                    <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                        formControlName="category_image" name="category_image" class="input-img"
+                                        style="display: none;" />
+                                </label>
+                            </div>
+                        </div>
+                        <div *ngIf="isLoadingUpload == true"
+                                class="bg-white syra-font-primary-Regular d-flex justify-content-center align-items-center w-100 h-100"
+                                style="min-height: 150px;">
+                                Loading...
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="">
+            <div class="row mx-0 justify-content-center align-items-center shadow-top"
+                style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+                <div class="col-12 d-flex justify-content-center {{action =='edit' ? 'py-3':'py-4'}}">
+                    <button type="submit" (click)="saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf="isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center pb-4"
+                    *ngIf="field == 'category' && action == 'edit'">
+                    <button (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

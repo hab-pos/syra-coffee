@@ -1,0 +1,106 @@
+@import "../../../public/Fonts/fonts";
+@import "../../../public/Colors/colors";
+
+input {
+    border-radius: 0px !important;
+    border: solid 1px #4a4a4a;
+    background-color: #f7f7f7;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+        background-color: #f7f7f7;
+        border: solid 1px #4a4a4a;
+    }
+}
+
+.btn {
+    background-color: #679187;
+    border: none;
+    border-radius: 0px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    min-width: 240px;
+    min-height: 40px;
+    &:focus {
+        border: none;
+        box-shadow: none;
+    }
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'cerebrisans-Regular';
+}
+
+.input-group-text {
+    border-color: black;
+    border-radius: 0;
+    margin-top: 0px;
+    border-left: 0px;
+    background-color: #f7f7f7;
+}
+
+.text-secondary {
+    color: #4a4a4a;
+}
+
+.input-group {
+    border-left: 0px;
+    margin-top: 0.5px;
+    border-radius: 0px !important;
+    border-color: black;
+
+    &:focus {
+        outline: none;
+        outline: none;
+    }
+
+}
+::ng-deep .bg_color .mat-drawer-inner-container {
+    background-color: #f0f0f0 !important;
+}
+
+
+
+
+::ng-deep .show_map_check.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background,
+.mat-accent .mat-pseudo-checkbox-checked,
+.mat-accent .mat-pseudo-checkbox-indeterminate,
+.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-indeterminate {
+    background-color: #679187 !important;
+}
+
+::ng-deep .show_map_check .mat-ripple-element {
+    background-color: #679187 !important;
+}
+
+::ng-deep .show_map_check.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #679187 !important;
+    border : none
+}
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    background-color: transparent !important;
+}
+
+::ng-deep .show_map_check .mat-checkbox-checkmark-path {
+    stroke: white !important;
+}
+::ng-deep .show_map_check .mat-checkbox-inner-container {
+    width: 16px !important;
+    height: 16px !important;
+}
+::ng-deep .show_map_check .mat-checkbox-layout {
+    width: 100% !important;
+}
+
+::ng-deep .show_map_check .mat-checkbox-layout .mat-checkbox-label {
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}

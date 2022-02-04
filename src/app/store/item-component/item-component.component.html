@@ -1,0 +1,263 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="w-100 h-100 scroll_none">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'product' && action == 'add' ? 'ADD PRODUCT' : 'EDIT PRODUCT' }}
+    </div>
+    <form [formGroup]="itemsForm">
+        <div class="mx-2 {{action == 'edit'?'h-product-eidt':'h-product'}}">
+            <div class="form-row mx-3">
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                            <label>Name</label>
+                        </div>
+                        <input type="text" class="form-control w-100" placeholder="Enter name"
+                            formControlName="items_name">
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Reference</label>
+                        </div>
+                        <input type="text" class="form-control w-100" placeholder="Reference"
+                            formControlName="reference">
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Price</label>
+                        </div>
+                        <div class="w-100">
+                            <input type="number" class="form-control w-100" placeholder="0,00" formControlName="price">
+                            <fa-icon [icon]='faEuroSign' class="position-absolute  text-dark"
+                                style="right: 20px;top: 58%;">
+                            </fa-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100 ">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>IVA</label>
+                        </div>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                                <input type="text" #iva_item placeholder="0.00%" aria-label="Number" matInput
+                                [matAutocomplete]="auto_iva" (input)="filter_items($event.target.value)" formControlName="iva">
+                            <mat-autocomplete #auto_iva ="matAutocomplete" class="option_down_line">
+                                <mat-option *ngFor="let option of ivas;let i = index;let last = last"
+                                    [ngClass]="{'border_none': last === true }"
+                                    (click)=optionSelected(option._id,option.iva_percent_withSymbol) [value]="option.iva_percent_withSymbol">
+                                    {{option.iva_percent_withSymbol}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Beans Value</label>
+                        </div>
+                        <div class="w-100">
+                            <input type="number" class="form-control w-100" placeholder="00" formControlName="beans">
+                            <fa-icon [icon]='faBolt' class="position-absolute  text-dark" style="right: 20px;top: 58%;">
+                            </fa-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Category</label>
+                        </div>
+                        <mat-form-field appearance="outline"
+                            class="e-autocomplete gst_percent w-100 custom-auto-complete"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #categor placeholder="Select" aria-label="Number" matInput
+                                [matAutocomplete]="category_auto" (input)="filter_category($event.target.value)" formControlName="category">
+                            <mat-autocomplete #category_auto="matAutocomplete" class="option_down_line">
+                                <mat-option *ngFor="let option of category;let i = index;let last = last"
+                                    [value]="option.category_name" [ngClass]="{'border_none': last === true }" (click) = "optionSelectedCategory(option._id)">
+                                    {{option.category_name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100 mt-3">
+                    <div class="input-group img-upload">
+                        <div class="w-100 z-ind1">
+                            <p class="mb-0 img-head text-center py-3">IMAGE</p>
+                        </div>
+                        <div class="h-200 bg-white-img w-100">
+                        </div>
+                        <span style="color:red;" *ngIf="message">{{message}}</span>
+                        <label class="upload-png px-2">Upload PNG
+                            <input #file type="file" accept='image/*' (change)="preview(file.files)" class="input-img"
+                                style="display: none;" />
+                        </label>
+                        <img [src]="imgURL" height="98" class="preview-img" *ngIf="imgURL">
+                        <div class="border-dotted event-img-box d-flex justify-content-center align-items-center t-33 l-33 position-absolute"
+                            *ngIf="!imgURL">Upload</div>
+                    </div>
+                </div>
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 p-0 ">
+                            <label>Setup</label>
+                        </div>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #setupp placeholder="Select" aria-label="Number" matInput
+                                [matAutocomplete]="setup_complete" (input)="filter_setup($event.target.value)" formControlName="setup" style="text-transform: capitalize;">
+                            <mat-autocomplete #setup_complete="matAutocomplete" class="option_down_line">
+                                <mat-option *ngFor="let option of setup;let i = index;let last = last" [value]="option"
+                                    (click)="onSelect(option)" [ngClass]="{'border_none': last === true }">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- modifier check box only for product edit-->
+                <div *ngIf="setup_selected == 'modifiers'" class="product-check w-100">
+                    <div class="form-group mx-2 w-100">
+                        <div class="input-group ">
+                            <div class="text-left col-12 mx-0 mt-2 p-0 ">
+                                <label class="mb-0">Required Modifier</label>
+                            </div>
+                            <div class="line mt-2 mr-3"></div>
+                        </div>
+                    </div>
+                    <div class="row mx-2 p-0 pb-3 w-100">
+                        <div class="col-6  mx-0 p-0 " *ngFor="let check_modifier of require_modifier, index as i">
+                            <mat-checkbox [checked]=check_modifier.checked
+                                (change)="selectModifiers(i,$event.checked,'required')" class="check w-100"
+                                disableRipple [matTooltip]="check_modifier.modifier_name"
+                                matTooltipClass="tooltip-list">
+                                {{check_modifier.modifier_name}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="form-group mx-2 w-100">
+                        <div class="input-group ">
+                            <div class="text-left col-12 mx-0 mt-2 p-0 ">
+                                <label class="mb-0">Optional Modifier</label>
+                            </div>
+                            <div class="line mt-2 mr-3"></div>
+                        </div>
+                    </div>
+                    <div class="row mx-2 p-0 pb-3 w-100">
+                        <div class="col-6  mx-0 p-0 " *ngFor="let option_modifier of optional_modifier, index as i">
+                            <mat-checkbox [checked]=option_modifier.checked
+                                (change)="selectModifiers(i,$event.checked,'optional')" class="check w-100"
+                                disableRipple [matTooltip]="option_modifier.modifier_name"
+                                matTooltipClass="tooltip-list">
+                                {{option_modifier.modifier_name}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <!--only when varient choose-->
+                <div *ngIf="setup_selected == 'variants'">
+                    <div class="product-check">
+                        <div class="form-group mx-2 w-100">
+                            <div class="input-group ">
+                                <div class="text-left col-12 mx-0 mt-2 p-0 ">
+                                    <label class="mb-0">Grind</label>
+                                </div>
+                                <div class="line mt-2 mr-3"></div>
+                            </div>
+                        </div>
+                        <div class="row mx-3 p-0 pb-3 w-100">
+                            <div class="col-6  mx-0 p-0 " *ngFor="let varient_grind of grind, index as i">
+                                <mat-checkbox [checked]=varient_grind.checked class="check w-100" disableRipple
+                                    [matTooltip]="varient_grind.grind_name" matTooltipClass="tooltip-list"
+                                    (change)="selectModifiers(i,$event.checked,'grind')">
+                                    {{varient_grind.grind_name}}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mx-2 ">
+                        <div class="input-group notes">
+                            <div class="text-left col-12 mx-0 p-0 ">
+                                <label>Orgin</label>
+                            </div>
+                            <input type="text" class="form-control w-100" placeholder="Origin" formControlName="orgin_text">
+                            <mat-checkbox [checked]="orgin_value" class="check product-check t-53 r-3 z-index-3 position-absolute" (change) = "updateOriginNotes('orgin_text',$event.checked)"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="form-group mx-2 ">
+                        <div class="input-group notes">
+                            <div class="text-left col-12 mx-0 p-0">
+                                <label>Notes</label>
+                            </div>
+
+                            <input type="text" class="form-control w-100" placeholder="Notes" formControlName="notes">
+                            <mat-checkbox [checked]="note_value" class="check product-check t-53 r-3 z-index-3 position-absolute" (change) = "updateOriginNotes('notes',$event.checked)"></mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-2 mt-4">
+                    <div class="input-group img-upload">
+                        <div class="w-100 z-ind1">
+                            <p class="mb-0 img-head text-center py-3">DESCRIPTION</p>
+                        </div>
+                        <div class="h-250 bg-white-img w-100 d-flex justify-content-center">
+                            <quill-editor #editor class="pt-2" (onEditorChanged)="changedEditor($event)" (onEditorCreated)="Quillcreated($event)" formControlName="description">
+                                <div quill-editor-toolbar>
+                                    <span class="ql-formats d-flex mr-0">
+                                        <button class="ql-bold" [title]="'Bold'"></button>
+                                        <button class="ql-italic" [title]="'italic'"></button>
+                                        <button class="ql-link" [title]="'link'"></button>
+                                        <div class="ml-auto">
+                                            <button class="ql-header" [title]="'header'">H</button>
+                                            <button class="ql-paragraph" [title]="'paragraph'">P</button>
+                                        </div>
+                                    </span>
+                                </div>
+                            </quill-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="row mx-0 justify-content-center align-items-center shadow-top"
+                style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+                <div class="col-12  d-flex justify-content-center {{action =='edit' ? 'py-3':'py-4'}}">
+                    <button type="submit" (click)="saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf="isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center pb-4"
+                    *ngIf="field == 'product' && action == 'edit'">
+                    <button (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

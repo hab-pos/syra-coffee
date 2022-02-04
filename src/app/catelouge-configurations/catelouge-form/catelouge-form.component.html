@@ -1,0 +1,128 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div  class="w-100">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'addinv' ? 'ADD PRODUCT' :'EDIT PRODUCT' }}
+    </div>
+    <form class="mx-2" [formGroup]="catelougeForm" >
+        <div class="h75vh">
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                        <label>Name</label>
+                    </div>
+                    <input type="text" #product_name class="form-control w-100" placeholder="Enter name"
+                        formControlName="product_name">
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12  mt-2 p-0 ">
+                        <label>Reference</label>
+                    </div>
+                    <input type="text" #refernce_name class="form-control w-100" placeholder="AB1234"
+                        formControlName="refernce">
+                </div>
+            </div>
+
+            <div class="form-row mx-3">
+                <div class="form-group col-6 px-0 w-50">
+                    <div class="col-12 pl-0">
+                        <label>Unit</label>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #units placeholder="Bag(s)" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (input)="filter_units($event.target.value)"
+                                formControlName="units">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filtered_units" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form-group col-6 px-0  w-50">
+                    <div class="col-12 pr-0">
+                        <label>Price</label>
+                        <div class="col-12 px-0 w-100">
+                            <input type="number" #price class="form-control w-100" placeholder="EUR" style="padding-right: 30px;"  formControlName="price">
+                            <fa-icon [icon]='faEuroSign' class="position-absolute right-20 top-10 text-dark"></fa-icon>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12  p-0">
+                        <label>Category</label>
+                    </div>
+                    <input type="text" #category class="form-control w-100"  placeholder="BEBIDAS" formControlName="category">
+<!-- 
+                    <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                        style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                        <input type="text" #category placeholder="BEDIBAS" aria-label="Number" matInput
+                            [matAutocomplete]="auto_unit" (input)="filter($event.target.value)"
+                            formControlName="category">
+                        <mat-autocomplete #auto_unit="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <button class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0" type="button"
+                            *ngIf="filteredOptions.length == 0 && category.value != ''" (click)="navigateCategory()">
+                            <fa-icon [icon]='faPlus'></fa-icon>
+                        </button>
+                    </mat-form-field> -->
+                </div>
+            </div>
+
+            <div class="form-group mx-3 ">
+                <div class="input-group ">
+                    <div class="text-left col-12 mx-0 mt-2 p-0 ">
+                        <label>Available For</label>
+                    </div>
+                    <div class="line mt-2 "></div>
+                </div>
+            </div>
+
+
+            <div class="row mx-3 p-0 pb-3">
+                <div class="col-6  mx-0 p-0 " *ngFor="let branch of branches, index as i">
+                    <mat-checkbox [checked]=branch.is_active (change)=updateAllComplete(i,$event.checked)
+                        class="check w-100" disableRipple [matTooltip]="branch.branch_name"
+                        matTooltipClass="tooltip-list">
+                        {{branch.branch_name}}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="h25vh">
+            <div class="row mx-0 justify-content-center align-items-center">
+                <div class="col-12 py-3 d-flex justify-content-center">
+                    <button type = "submit"  (click)="field == 'editinv' ? editAction() : saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf = "isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center">
+                    <button *ngIf="field == 'editinv'" type = "button" (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf = "isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

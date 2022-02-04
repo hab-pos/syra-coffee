@@ -1,0 +1,270 @@
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.statistics-info {
+  font-size: 15px;
+  color: #4a4a4a;
+  opacity: 0.62;
+  font-family: "CerebriSans-Light";
+}
+
+.tax-included {
+  font-size: 14.5px;
+  font-family: "CerebriSans-Bold";
+}
+
+.h-365px {
+  height: 365px;
+  overflow: auto;
+}
+
+.p-25 {
+  padding: 25px;
+}
+
+.pt-25 {
+  padding-top: 23px;
+}
+
+.square-20 {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.h-10px {
+  height: 10px;
+}
+
+.mx-30 {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.top-lbl-title {
+  font-size: 1.05rem;
+  font-family: " CerebriSans-semibold";
+  color: black;
+}
+
+.top-lbl-value {
+  font-size: 2.5rem;
+  font-family: " CerebriSans-semibold";
+  color: #4a4a4a;
+}
+
+.top-lbl-profit {
+  font-size: 1rem;
+  font-family: " CerebriSans-semibold";
+}
+
+.chart-title {
+  background-color: #274F70;
+  font-family: " CerebriSans-semibold";
+  font-size: 1.07rem;
+  height: 35px;
+}
+
+::ng-deep .donut-chart .k-chart-surface {
+  height: 100% !important;
+}
+
+.square-10 {
+  height: 12px;
+  width: 12px;
+}
+
+.w-125px {
+  width: 110px;
+}
+
+.w-75px {
+  width: 60px;
+}
+
+.font-donut-legend {
+  font-family: " CerebriSans-semibold";
+  font-size: 0.85rem;
+}
+
+.h-340 {
+  height: 340px;
+  overflow: auto;
+}
+
+.h-465px {
+  height: 465px;
+  overflow: auto;
+}
+
+::ng-deep a[href^="http://maps.google.com/maps"] {
+  display: none !important;
+}
+
+::ng-deep a[href^="https://maps.google.com/maps"] {
+  display: none !important;
+}
+
+::ng-deep .gmnoprint {
+  display: none !important;
+}
+
+::ng-deep .gm-style-cc {
+  display: none !important;
+}
+
+::ng-deep .gm-style-pbc {
+  display: none !important;
+}
+
+.box-online-offline {
+  width: 155px;
+  height: 75px;
+  z-index: 2;
+  top: 50px;
+  right: 25px;
+  font-family: " CerebriSans-semibold";
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.table-filter {
+  min-height: 100px;
+  max-height: 200;
+  overflow: auto;
+  z-index: 2;
+  top: 102px;
+  right: 1.875rem;
+  font-family: " CerebriSans-semibold";
+  font-size: 0.78rem;
+}
+
+.border-color-black {
+  border-bottom-color: black;
+}
+
+.box-online-offline:hover {
+  opacity: 1;
+}
+
+.circle-12 {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.bg-yellow {
+  background-color: #E5DD48;
+}
+
+::ng-deep .channel-type.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background,
+.mat-accent .mat-pseudo-checkbox-checked,
+.mat-accent .mat-pseudo-checkbox-indeterminate,
+.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-indeterminate {
+  background-color: #679187 !important;
+}
+
+::ng-deep .channel-type .mat-ripple-element {
+  background-color: #679187 !important;
+}
+
+::ng-deep .channel-type.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #679187 !important;
+  border: none;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: transparent !important;
+}
+
+::ng-deep .channel-type .mat-checkbox-checkmark-path {
+  stroke: white !important;
+}
+
+::ng-deep .channel-type .mat-checkbox-inner-container {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+::ng-deep .channel-type .mat-checkbox-layout {
+  width: 100% !important;
+}
+
+::ng-deep .channel-type .mat-checkbox-layout .mat-checkbox-label {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .channel-type .mat-checkbox-layout {
+  margin-bottom: 0.2rem !important;
+}
+
+.right-20 {
+  right: 20px;
+}
+
+.shadow-right {
+  box-shadow: 5px 0 5px -5px #333;
+}
+
+.sticky-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.more-col-indicator {
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 25px;
+}

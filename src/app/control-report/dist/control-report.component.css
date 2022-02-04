@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.wrapper {
+  margin-top: 130px;
+  font-family: "CerebriSans-Bold";
+}
+
+.table-w-350-scroll {
+  max-height: 270px;
+  overflow: auto;
+}
+
+.total-discount {
+  font-size: 38px;
+}
+
+tr.mat-header-row {
+  height: 48px;
+}
+
+th.mat-header-cell {
+  text-align: center;
+}
+
+::ng-deep .couponTabel-formatter {
+  border-collapse: separate;
+}
+::ng-deep .couponTabel-formatter tr:nth-child(2n) {
+  background: white;
+}
+
+::ng-deep .couponTabel-formatter > tbody > tr {
+  height: 45px !important;
+}
+
+::ng-deep .couponTabel > tfoot > tr > td {
+  height: 100%;
+}
+
+.price_label {
+  font-family: "CerebriSans-Bold";
+}
+
+.h100-60px {
+  height: calc(100% - 60px);
+}
+
+::ng-deep .couponTabel > tfoot > tr {
+  position: absolute !important;
+  bottom: 0px;
+  height: 45px !important;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+}
+::ng-deep .couponTabel > tfoot > tr td {
+  padding-top: 7px;
+  width: 50%;
+}
+
+::ng-deep .couponTabel > thead > tr td {
+  width: 50%;
+}
+
+::ng-deep .couponTabel > tbody > tr td {
+  width: 50%;
+}

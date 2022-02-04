@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.info {
+  font-family: "CerebriSans-Regular";
+  font-size: 15px;
+}
+
+.h-125 {
+  height: 120px;
+}
+
+.h-78vh {
+  max-height: calc(74vh - 120px - 1.5rem);
+  overflow: auto;
+}
+
+.h-78 {
+  max-height: 74vh;
+  overflow: auto;
+}
+
+.wrapper {
+  margin-top: 130px;
+  font-family: "CerebriSans-Bold";
+}

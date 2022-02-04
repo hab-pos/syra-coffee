@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+input {
+  border-radius: 0px !important;
+  border-color: black;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #f7f7f7;
+}
+input:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: #f7f7f7;
+  border-color: black !important;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.select {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  font-weight: normal;
+}
+
+input,
+input::-webkit-input-placeholder {
+  font-size: 16px;
+  font-weight: normal;
+  font-family: "cerebrisans-Regular";
+}
+
+.mat-select,
+.mat-select::-webkit-mat-select-placeholder {
+  font-size: 15px;
+  font-weight: normal;
+  font-family: "cerebrisans-Regular";
+}
+
+.line {
+  height: 0.5px;
+  width: 100%;
+  padding: 0.5px;
+  background-color: #4a4a4a;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border-color: 0.5px #4a4a4a;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: gray !important;
+}
+
+::ng-deep .mat-checkbox-checkmark-path {
+  stroke: dodger-blue !important;
+}
+
+.btn {
+  background-color: #679187;
+  border-radius: 0px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  min-width: 240px;
+  min-height: 40px;
+}
+.btn:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.btn:hover {
+  opacity: 0.9;
+}
+
+.right-25 {
+  right: 25px;
+}
+
+.top-15 {
+  top: 58%;
+}
+
+.btn-danger {
+  min-width: 240px;
+  min-height: 40px;
+  border-style: none;
+  border-radius: 0px;
+  box-shadow: 0 3px 6px 0 rgba(87, 87, 87, 0.51);
+}
+.btn-danger:focus {
+  outline: none;
+  box-shadow: none;
+  outline: none;
+}
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.form-control {
+  border-color: black;
+  border-radius: 0px;
+}
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: black !important;
+}
+
+::ng-deep .gst_percent.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  height: 38px;
+  margin: 0 !important;
+}
+
+::ng-deep .check.mat-checkbox .mat-checkbox-frame {
+  border-color: 0.5px #4a4a4a;
+}
+
+::ng-deep .e-autocomplete .mat-form-field-infix {
+  border: 1px solid;
+  padding: 0px;
+}
+::ng-deep .e-autocomplete .mat-form-field-infix .mat-input-element {
+  height: 38px;
+  box-shadow: none;
+  padding-left: 13px;
+  padding-right: 25px;
+  background-color: #f7f7f7;
+}
+
+::ng-deep .e-autocomplete .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+::ng-deep .e-autocomplete.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0px !important;
+  margin-top: 0 !important;
+  border-top: 1px solid !important;
+}
+
+::ng-deep .check.mat-checkbox-checked .mat-checkbox-background {
+  background-color: gray !important;
+}
+
+::ng-deep .mat-checkbox-checkmark-path {
+  stroke: dodger-blue !important;
+}
+
+::ng-deep .check.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: white !important;
+  border: 1px solid !important;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 0px;
+}
+
+::ng-deep .mat-checkbox-checkmark-path {
+  stroke: #000 !important;
+}
+
+::ng-deep .form-field .mat-form-field-flex {
+  outline: 1px solid !important;
+  height: 36px !important;
+  margin-top: 1px !important;
+  background-color: #f7f7f7;
+}
+
+::ng-deep .form-field .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0px !important;
+}
+
+::ng-deep .form-field .mat-form-field-wrapper {
+  padding-bottom: unset;
+}
+
+::ng-deep .form-field .mat-form-field-infix {
+  padding: 0px !important;
+}
+
+::ng-deep .check.mat-checkbox .mat-checkbox-ripple {
+  width: 0px;
+  height: 0px;
+}
+
+::ng-deep .check .mat-checkbox-layout {
+  width: 100%;
+}
+
+::ng-deep .check .mat-checkbox-layout .mat-checkbox-label {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: "CerebriSans-Regular";
+  font-size: 15px;
+}
+
+::ng-deep .bg_color .mat-drawer-inner-container {
+  background-color: #f0f0f0 !important;
+}
+
+.r0 {
+  right: 0px;
+}
+
+.w35 {
+  width: 35px;
+}
+
+.btn-add:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.right-20 {
+  right: 20px;
+}
+
+.top-10 {
+  top: 9px;
+}

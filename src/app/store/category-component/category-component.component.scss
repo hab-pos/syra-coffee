@@ -1,0 +1,111 @@
+@import "../../../public/Colors/colors";
+@import "../../../public/Fonts/fonts";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+input {
+    border-radius: 0px !important;
+    border-color: black;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #f7f7f7;
+    &:focus {
+        outline: none;
+        box-shadow: none;
+        background-color: #f7f7f7;
+        border-color: black !important;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+    }
+}
+
+.select {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    font-weight: normal;
+}
+input,
+input::-webkit-input-placeholder {
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'cerebrisans-Regular';    
+}
+
+.btn {
+    background-color: #679187;
+    border-radius: 0px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    min-width: 240px;
+    min-height: 40px;
+    &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+    &:hover{
+        opacity: 0.9;
+    }
+}
+
+::ng-deep .bg_color .mat-drawer-inner-container {
+    background-color: #f0f0f0 !important;
+}
+::ng-deep .form-field .mat-form-field-flex {
+    outline: 1px solid !important;
+    height: 36px !important;
+    margin-top: 1px !important;
+    background-color: #f7f7f7;
+}
+
+.btn-danger {
+    min-width: 240px;
+    min-height: 40px;
+    border-style: none;
+    border-radius: 0px;
+    box-shadow: 0 3px 6px 0 rgba(87, 87, 87, 0.51);
+    &:focus {
+        outline: none;
+        box-shadow: none;
+        outline: none;
+    }
+    &:hover{
+        opacity: 0.9;
+    }
+}
+/*new added classes*/
+.h-category-eidt{    
+    height: calc(100vh - 184px);
+    overflow: auto;
+}
+.preview-img{
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+.bg-white-img{
+    background-color: white;
+}
+.z-ind1{
+    z-index: 1;
+}
+.img-head{
+    box-shadow: 0px 3px 6px #14141429;
+}
+.category-img-width{
+    width: 87px;
+    object-fit: cover;
+}
+.h-category{    
+    height: calc(100vh - 136px);
+    overflow: auto;
+}
+.upload-png{
+    background: #4A4A4A 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #57575783;
+    color:white;
+    font-size: 0.8em;    
+}
+.h-200{
+    height: 150px;
+}
+

@@ -1,0 +1,238 @@
+<!--  -->
+<div class="container wrapper">
+    <mat-sidenav-container class="bg-transparent">
+        <mat-sidenav #sidenav class="bg_color" [mode]="'over'" [position]='"end"'
+            [ngClass]="Pagewidth<=576 ? 'w-100' : 'w-400px' " (opened)="push()" (closed)="close()">
+            <app-item-component [sidenav]=sidenav [category]="this.category" [require_modifier]="this.modifiers"
+                [field]="field" [action]="action" *ngIf="field == 'product'">
+            </app-item-component>
+            <app-modifier-component [sidenav]=sidenav [field]="field" [action]="action" *ngIf="field == 'modifier'">
+            </app-modifier-component>
+            <app-category-component [sidenav]=sidenav [field]="field" [action]="action" *ngIf="field == 'category'">
+            </app-category-component>
+        </mat-sidenav>
+
+
+        <mat-sidenav-content class="mb-5">
+            <div class="mx-4">
+                <div class="row">
+                    <div class="col-md-12 col-lg-5 h-100 pr-lg-5">
+                        <div class="row mx-0">
+                            <div class="col-12 px-0">
+                                <div class='bg-white table-w-350-scroll-50Percent'>
+                                    <div class="col-12 text-center title sticky-top">
+                                        <div class="row justify-content-center">
+                                            <span class="col-12 font-1em">CATEGORIES</span>
+                                            <div class="add-btn-pos">
+                                                <button class="border-0 bg-transparent edit_btn_act"
+                                                    (click)="openSideBar('category','add')">
+                                                    <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div *ngIf="category?.length == 0 && isLoadingCategory == false"
+                                        class="d-flex justify-content-center align-items-center "
+                                        style="min-height: calc(39vh - 15px - 55px); font-size: 16;">
+                                        No category Found
+                                    </div>
+
+                                    <div *ngIf="isLoadingCategory == true"
+                                        class="d-flex justify-content-center align-items-center "
+                                        style="min-height: calc(39vh - 15px - 55px); font-size: 16;">
+                                        Loading...
+                                    </div>
+
+
+                                    <table #table mat-table [dataSource]="category" class="syra-table w-100" cdkDropList
+                                        [cdkDropListData]="category" (cdkDropListDropped)="dropTable($event)"
+                                        *ngIf="category?.length > 0 && isLoadingCategory == false">
+                                        <ng-container matColumnDef="name_color">
+                                            <th mat-header-cell *matHeaderCellDef class="p-10"></th>
+                                            <td mat-cell *matCellDef="let element;let i = index"
+                                                class="p-0 py-point40em">
+                                                <div class="row ml-1 p-10" style="pointer-events: all;">
+                                                    <div class="category-image">
+                                                        <img [src]="element?.image_url" width="20" height="20"
+                                                            style="margin : 3px">
+                                                    </div>
+                                                    <span class="ml-2 d-flex align-items-center"
+                                                        style="font-size: 0.8rem;font-family: CerebriSans-Bold;">{{element?.category_name}}</span>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="p-24"></th>
+                                            <td mat-cell *matCellDef="let element;let i = index"
+                                                class="text-right p-0 py-point40em">
+                                                <div class="ml-5 p-24">
+                                                    <div class="row justify-content-end" style="pointer-events: all;">
+                                                        <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                            (click)="onCategoryStatusChange(i)">
+                                                            <mat-slide-toggle class="slide_app"
+                                                                checked={{element?.is_Active}}></mat-slide-toggle>
+                                                        </button>
+
+                                                        <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                            (click)="openSideBar('category','edit',i)">
+                                                            <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                                aria-label="Example home icon">edit</mat-icon>
+                                                        </button>
+                                                        <button class="border-0 bg-transparent edit_btn_act pr-1">
+                                                            <fa-icon [icon]="faArrowsAlt" class="text-dark"></fa-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-row *matRowDef="let row; columns: display_col_category;let i = index"
+                                            class="p-0 border-bottom draggable-row" cdkDrag [cdkDragData]="row"
+                                            (click)="loadProductForSpecificCategory(i,$event)"
+                                            [ngClass]="this.selectedRowToHighLight == i ? 'bg-gray' : 'bg-white'">
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-12 px-0 pt-30">
+                                <div class='bg-white table-w-350-scroll-50Percent' style="min-height: 96px;">
+                                    <div class="col-12 text-center title sticky-top">
+                                        <div class="row justify-content-center">
+                                            <span class="col-12 font-1em">MODIFIERS</span>
+                                            <div class="add-btn-pos">
+                                                <button class="border-0 bg-transparent edit_btn_act"
+                                                    (click)="openSideBar('modifier','add')">
+                                                    <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="modifiers?.length == 0 && isLoadingModifiers == false"
+                                        class="d-flex justify-content-center align-items-center "
+                                        style="min-height: calc(39vh - 15px - 55px); font-size: 16;">
+                                        No Modifiers Found
+                                    </div>
+
+                                    <div *ngIf="isLoadingModifiers == true"
+                                        class="d-flex justify-content-center align-items-center "
+                                        style="min-height: calc(39vh - 15px - 55px); font-size: 16;">
+                                        Loading...
+                                    </div>
+
+                                    <table mat-table [dataSource]="modifiers" class="syra-table w-100"
+                                        *ngIf="modifiers?.length > 0 && isLoadingModifiers == false">
+                                        <ng-container matColumnDef="name_color">
+                                            <th mat-header-cell *matHeaderCellDef class="p-10"></th>
+                                            <td mat-cell *matCellDef="let element;let i = index"
+                                                class="p-0 py-point40em">
+                                                <div class="row ml-1 p-10 " style="pointer-events: all;">
+                                                    <span class="ml-2"
+                                                        style="font-size: 0.8rem;font-family: CerebriSans-Bold;">{{element?.modifier_name}}</span>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="p-24 "></th>
+                                            <td mat-cell *matCellDef="let element;let i = index"
+                                                class="text-right p-0 py-point40em">
+                                                <div class="ml-5 p-24">
+                                                    <div class="row justify-content-end" style="pointer-events: all;">
+                                                        <mat-slide-toggle class="slide_app"
+                                                            checked={{element.is_Active}}
+                                                            (click)="onModifierStatusChange(i)"></mat-slide-toggle>
+                                                        <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                            (click)="openSideBar('modifier','edit',i)">
+                                                            <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                                aria-label="Example home icon">edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-row *matRowDef="let row; columns: display_col_category;let i = index"
+                                            class="p-0 border-bottom draggable-row">
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-7 h-100 pl-lg-0 mt-lg-0 mt-md-4">
+
+                        <div class='bg-white table-w-350-scroll' style="min-height: 96px;">
+                            <div class="col-12 text-center title sticky-top font-1em">
+                                <div class="row justify-content-center">
+                                    <span class="col-12">ITEMS</span>
+                                    <div class="add-btn-pos">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('product','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div *ngIf="products?.length == 0 && isLoadingProduct == false"
+                                class="d-flex justify-content-center align-items-center "
+                                style="min-height: calc(78vh - 15px - 55px); font-size: 16;">
+                                No Products Found
+                            </div>
+
+                            <div *ngIf="isLoadingProduct == true"
+                                class="d-flex justify-content-center align-items-center "
+                                style="min-height: calc(78vh - 15px - 40px); font-size: 16;">
+                                Loading...
+                            </div>
+
+                            <table #products_table mat-table [dataSource]="products" class="syra-table w-100"
+                                cdkDropList [cdkDropListData]="products" (cdkDropListDropped)="dropProducts($event)"
+                                *ngIf="products?.length > 0">
+                                <ng-container matColumnDef="name_color">
+                                    <th mat-header-cell *matHeaderCellDef class="p-10"></th>
+                                    <td mat-cell *matCellDef="let element" class="product-cell p-10 py-point40em">
+                                        <div class="row ml-1">
+                                            <span class="ml-2"
+                                                style="font-size: 0.8rem;font-family: CerebriSans-Bold;">{{element.product_name}}</span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="p-24"></th>
+                                    <td mat-cell *matCellDef="let element;let i = index"
+                                        class="text-right p-24 py-point40em">
+                                        <div class="ml-5">
+                                            <div class="row justify-content-end" style="pointer-events: all;">
+                                                <mat-slide-toggle class="slide_app" checked={{element.is_Active}}
+                                                    (change)="onProductStatusChange(i)">
+                                                </mat-slide-toggle>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                    (click)="openSideBar('product','edit',i)">
+                                                    <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                        aria-label="Example home icon">edit</mat-icon>
+
+                                                    <!-- <fa-icon [icon]="faPencilAlt" class="text-dark"></fa-icon> -->
+                                                </button>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1">
+                                                    <fa-icon [icon]="faArrowsAlt" class="text-dark"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let prod_row; columns: display_col_category"
+                                    class="p-0 border-bottom" cdkDrag [cdkDragData]="prod_row"></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div  class="w-100 h-100">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'featured_pdts' && action == 'add' ? 'ADD FEATURED PRODUCT' : 'EDIT FEATURED PRODUCT' }}
+    </div>
+    <form [formGroup]="featured_product_form" class="mx-2" style="height: calc(100% - 48px);">
+        <div class="{{action == 'edit'?'h-product-eidt':'h-feature'}}">
+            <div class="form-row mx-4 pt-5">
+                <div class="form-group col-12 px-0 w-100">
+                    <div class="col-12 px-0">
+                        <label>PRODUCT</label>
+                        <mat-form-field appearance="outline" class="e-autocomplete gst_percent w-100"
+                            style="box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <input type="text" #product placeholder="Choose Product" aria-label="Number" matInput
+                                [matAutocomplete]="auto" (input)="filter_products($event.target.value)" formControlName="product_name">
+                            <mat-autocomplete #auto="matAutocomplete" class="option_down_line">
+                                <mat-option *ngFor="let option of productList;let i = index;let last = last" [value]="option.product_name" [ngClass]="{'border_none': last === true }" (click) = 'optionSelected(option)'>
+                                    {{option.product_name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button"
+                                class="position-absolute btn-add border-0 bg-transparent h-100 w35 r0">
+                                <fa-icon [icon]='faCaretDown'></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shadow-sm" style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+            <div class="row mx-0 justify-content-center align-items-center">
+                <div class="col-12 py-3 d-flex justify-content-center">
+                    <button type = "submit"  (click)="saveAction()" class="btn text-white btn-sm">
+                        <i *ngIf = "isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>SAVE</span>
+                    </button>
+                </div>
+                <div class="col-12 pb-3 d-flex justify-content-center pb-4"
+                    *ngIf="field == 'featured_pdts' && action == 'edit'">
+                    <button (click)="deleteAction()" class="btn-danger">
+                        <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                        <span>DELETE ITEM</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

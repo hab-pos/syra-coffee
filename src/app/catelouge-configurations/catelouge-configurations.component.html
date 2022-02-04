@@ -1,0 +1,131 @@
+<div class="container wrapper">
+    <mat-sidenav-container class="bg-transparent">
+        <mat-sidenav #sidenav class="bg_color" [mode]="'over'" [position]='"end"'
+            (opened)="push()"  (closed) = "closed()" [ngClass]="innerWidth<576 ? 'w-100' : 'w-370px' ">
+            <app-catelouge-form [sidenav]="sidenav" [field]="field"></app-catelouge-form>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="row mx-4 bg-white" >
+                <div class="col-12 title sticky-top p-3">
+                    <div class="row align-items-center mx-0">
+                        <div class="col-4">Inventory Catalogue </div>
+                        <div class="col-8 d-flex align-items-center justify-content-end ">
+                            <fa-icon [icon]="faSearch" class="curve-left bg-white h-35 pt-2 pl-3"></fa-icon>
+                            <input type="text" class="border-0 w-40 h-35 curve-right search-bar" placeholder="search"
+                                (input)="search($event.target.value)">
+                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="openSideBar('addinv')">
+                                <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isLoading == true"
+                    class="bg-white d-flex align-items-center top-60px justify-content-center z-index-1 alpha50 content position-absolute left-0 w100-48px h100-60px">
+                    Loading...
+                </div>
+
+                <div #tableView  class='col-12 p-0' style="max-height: 70vh; height : 70vh;overflow : auto">
+                    <table mat-table [dataSource]="tableData" class="w-100 syra-table" *ngIf="tableData.length > 0">
+                        <ng-container matColumnDef="refernce">
+                            <th mat-header-cell *matHeaderCellDef class="p-24" style="cursor: pointer;" (click) = "sort('reference')"> 
+                                <span class="text-dark">REFERENCE</span>
+                                <fa-icon [icon]='faSortRef' class="ml-2"></fa-icon>
+                            </th>
+                            <th mat-cell *matCellDef="let element" class="border-right p-24">
+                                <span class="text-dark refernce"> {{element.reference}} </span>
+                            </th>
+                        </ng-container>
+                        <ng-container matColumnDef="product_name">
+                            <th mat-header-cell *matHeaderCellDef class="p-24" style="cursor: pointer;" (click) ="sort('name')">
+                                <span class=text-dark>PRODUCT NAME</span>
+                                <fa-icon [icon]='faSortProd' class="ml-2"></fa-icon>
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="p-24">
+                                <span class=text-dark> {{element.inventory_name}} </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="unit">
+                            <th mat-header-cell *matHeaderCellDef class="p-24"> <span class=text-dark>UNIT</span></th>
+                            <td mat-cell *matCellDef="let element" class="p-24">
+                                <span class='text-dark text-capitalize'> {{element.unit}} </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="price">
+                            <th mat-header-cell *matHeaderCellDef class="p-24"> <span class=text-dark>PRICE</span></th>
+                            <td mat-cell *matCellDef="let element" class="p-24">
+                                <span class=text-dark> {{ commonServices.processPrice(element.price)}}€</span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="category">
+                            <th mat-header-cell *matHeaderCellDef class="p-24"> <span class=text-dark>CATEGORY</span>
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="p-24">
+                                <span class=text-dark>{{element.category_id}}</span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="available_for">
+                            <th mat-header-cell *matHeaderCellDef class="p-24"> <span class=text-dark>AVAILABLE
+                                    FOR</span></th>
+                            <td mat-cell *matCellDef="let element" class="p-24">
+                                <span class='text-dark border-dotted'
+                                    [matTooltip]="element.branch_name_array | tooltipList"
+                                    matTooltipClass="tooltip-list"
+                                    style="cursor : pointer">{{element.branch_name_array.length ==
+                                    avilableBranches.length ?
+                                    'All Branches' : element.branch_name_array.length+' '+'Branche(s)'}} </span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="available_for1">
+                            <th mat-header-cell *matHeaderCellDef class="p-24" class="d-none"> <span class=text-dark>AVAILABLE
+                                    FOR</span></th>
+                            <td mat-cell *matCellDef="let element" class="p-24 d-none">
+                                <span class='text-dark border-dotted'
+                                    [matTooltip]="element.branch_name_array | tooltipList"
+                                    matTooltipClass="tooltip-list"
+                                    style="cursor : pointer">{{element.branch_name_array.join(',')}} </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="p-24"> </th>
+                            <td mat-cell *matCellDef="let element;let i = index" class="border-left text-center p-24">
+                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                    (click)="openSideBar('editinv',i)">
+                                    <fa-icon [icon]="faEdit" class="text-dark"></fa-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;" class="border-left border-right"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <div class="no-items-table h-100" *ngIf="tableData.length == 0 && isLoading != true">
+                        No Inventory found
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <nav aria-label="Page navigation example" class="mt-3 mr-4 d-none">
+        <ul *ngIf="pages" class="pagination justify-content-end mb-3 f-wrap m-0">
+            <li class="page-item" [ngClass]="{disabled:current === 1}">
+                <a class="page-link" mdbWavesEffect (click)="getCatelougs(1)"><i
+                        class="material-icons">first_page</i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:current === 1}">
+                <a class="page-link" mdbWavesEffect (click)="getCatelougs(current - 1)"><i
+                        class="material-icons">navigate_before</i></a>
+            </li>
+            <li class="page-item mt-1" *ngFor="let page of pages" [ngClass]="{active:current === page}">
+                <a class="page-link" mdbWavesEffect (click)="getCatelougs(page)">{{page}}</a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:current === totalPages}">
+                <a class="page-link" mdbWavesEffect (click)="getCatelougs(current + 1)"><i
+                        class="material-icons">navigate_next</i></a>
+            </li>
+            <li class="page-item" [ngClass]="{disabled:current === totalPages}">
+                <a class="page-link" mdbWavesEffect (click)="getCatelougs(totalPages)"><i
+                        class="material-icons">last_page</i></a>
+            </li>
+        </ul>
+    </nav>
+</div>

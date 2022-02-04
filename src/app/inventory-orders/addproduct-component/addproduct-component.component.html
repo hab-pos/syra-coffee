@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="w-100 p-a" [ngStyle] = "{'height': orderDetails != null ? '85vh' : '100vh'}">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav_close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        Add To Order
+        <button (click) = "searchViewUpdate()" class='bg-transparent border-0  position-absolute' style="right: 10px;">
+            <fa-icon [icon]='faSearch'></fa-icon>
+        </button>
+    </div>
+
+    <div class="row m-0 p-0">
+        <div class="row m-0 py-3 w-100 sticky-top bg-white" *ngIf = "this.searchOptionEnabled">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <fa-icon [icon]="faSearch" class="curve-left h-35 pt-2 pl-3" style="background-color: #f7f7f7;"></fa-icon>
+                <input type="text" class="border-0 w-100 h-35 search-bar" placeholder="search" style="background-color: #f7f7f7;" (input)="search($event.target.value)">
+                <button (click)="searchViewUpdate()" class='border-0 form-close-btn h-100 curve-right' style="background-color: #f7f7f7;">
+                    <fa-icon [icon]='close'></fa-icon>
+                </button>
+            </div>
+        </div> 
+
+        <div class="row m-0 py-3 w-100">
+            <div class="col-3 tab-title text-left">CATEGORY</div>
+            <div class="col-5 tab-title p-0 text-left">PRODUCT NAME</div>
+            <div class="col-4 tab-title text-center">QUANTITY</div>
+        </div> 
+        <div class="line_add_product"></div>
+        <div class="mt-2 w-100">
+            <div class="row mx-0 align-items-center mb-1" *ngFor="let product of products,index as i" [ngClass] = "i % 2 == 0 ? 'bg-white' : 'bg-background'">
+                <div class="col-3 pl-3 inventory-text">
+                    {{product.category_id}}
+                </div>
+                <div class="col-5 px-0 inventory-text">
+                    {{product.reference }} - {{product.inventory_name}}
+                </div>
+                <div class="col-4 pr-3">
+                    <div class="row mx-0 justify-content-around">
+                        <div id="subract" class="d-flex align-items-center">
+                            <div class="rounded-corner border-sm shadow-sm">
+                                <button
+                                    class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                    (click)="minus(i)" style="font-size: 8px;">
+                                    <fa-icon [icon]='faMinusCircle'></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+    
+                        <div id="qty" class="mx-2">
+                            <div class="text-center inventory-text">{{product.quantity}}</div>
+                            <div class="text-center unit-text">{{product.unit}}</div>
+                        </div>
+    
+                        <div id="add" class="d-flex align-items-center">
+                            <div class="rounded-corner border-sm shadow-sm">
+                                <button
+                                    class="border-0 bg-white w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                    (click)="add(i)" style="font-size: 8px;">
+                                    <fa-icon [icon]='faPlusCircle'></fa-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-100 w85h-15 mt-1 b-shadow bg-transparent" *ngIf = "orderDetails != null">
+    <div class="col-12 d-flex justify-content-center align-items-center h-100">
+                <button type="submit" (click)="addOrder()" class="btn-success text-white">
+                    <i *ngIf="isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>APPROVE</span>
+                </button>
+            </div>
+</div>

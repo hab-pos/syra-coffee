@@ -1,0 +1,204 @@
+<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css" />
+<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css" />
+<div class="row mx-0">
+    <div class="col-lg-9 col-md-8 col-sm-12 pl-30 pr-30 border-right">
+        <div class="col-12 pt-30 pb-30">
+            <div class="row mx-0">
+                <div class="col-12 px-0 graphKento" *ngIf="graphData != null && graphData?.response.length > 0">
+                    <kendo-chart [seriesDefaults]="seriesDefaults" style="font-family: 'CerebriSans-Regular';"
+                        *ngIf="dates_selected == null || dates_selected.end == null || dates_selected.start == dates_selected.end">
+                        <kendo-chart-series>
+                            <kendo-chart-series-item *ngFor='let item of graphData?.response, index as i'
+                                type="rangeColumn" [data]="item" fromField="from" toField="to" categoryField="branch"
+                                [spacing]="-1"
+                                [gap]="((branches_graph.length - graphData.branches.length <= 0) ? 1 : (branches_graph.length - graphData.branches.length)) * branches_graph.length / 3"
+                                color={{item[0].color}}>
+                                <kendo-chart-series-item-tooltip>
+                                    <ng-template kendoChartSeriesTooltipTemplate let-value="value" class="text-center">
+                                        <div
+                                            style="font-size : 14px;font-family: CerebriSans-Bold;text-align: center;text-transform: capitalize;">
+                                            {{item[0].barista}}</div>
+                                        <div
+                                            style="font-family: CerebriSans-Regular;text-align: center;text-transform: capitalize;">
+                                            {{ item[0].from_hr}} - {{ item[0].to_hr }}</div>
+                                        <div
+                                            style="font-family: CerebriSans-Regular;text-align: center;text-transform: capitalize;">
+                                            {{item[0].date}}</div>
+                                    </ng-template>
+                                </kendo-chart-series-item-tooltip>
+                            </kendo-chart-series-item>
+                        </kendo-chart-series>
+                        <kendo-chart-area background="none"></kendo-chart-area>
+                        <kendo-chart-category-axis>
+                            <kendo-chart-category-axis-item [line]="{color:'#4a4a4a',width : '1'}"
+                                [categories]="branches_graph" [majorTicks]="{visible : false}"
+                                [labels]="{ font : 'CerebriSans-Bold',rotation: 'auto' }"
+                                [majorGridLines]="{visible : false}">
+                            </kendo-chart-category-axis-item>
+                        </kendo-chart-category-axis>
+
+                        <kendo-chart-value-axis>
+                            <kendo-chart-value-axis-item [line]="{visible:false}" [min]=3 [max]=24
+                                [majorTicks]="{visible : false}" [narrowRange]=true
+                                [labels]="{font : 'CerebriSans-Bold',format : '{0}h'}"
+                                [majorGridLines]="{dashType : 'dash'}">
+                            </kendo-chart-value-axis-item>
+                        </kendo-chart-value-axis>
+                    </kendo-chart>
+
+                    <kendo-chart [valueAxis]="valueAxis" [seriesDefaults]="seriesDefaults"
+                        style="font-family: 'CerebriSans-Regular';"
+                        *ngIf="dates_selected != null && dates_selected.end != null && dates_selected.start != dates_selected.end">
+                        <kendo-chart-series>
+                            <kendo-chart-series-item *ngFor='let item of graphData?.response; index as i'
+                                type="rangeColumn" [data]="item" fromField="login_date_graph"
+                                toField="logout_date_graph" categoryField="branch" [spacing]="-1"
+                                [gap]="((branches_graph.length - graphData.branches.length <= 0) ? 1 : (branches_graph.length - graphData.branches.length)) * branches_graph.length / 3"
+                                color={{item[0].color}}>
+                                <kendo-chart-series-item-tooltip>
+                                    <ng-template kendoChartSeriesTooltipTemplate let-value="value" class="text-center">
+                                        <div
+                                            style="font-size : 14px;font-family: CerebriSans-Bold;text-align: center;text-transform: capitalize;">
+                                            {{item[0].barista}}</div>
+                                        <div
+                                            style="font-family: CerebriSans-Regular;text-align: center;text-transform: capitalize;">
+                                            {{ item[0].from_hr}} - {{ item[0].to_hr }}</div>
+                                        <div
+                                            style="font-family: CerebriSans-Regular;text-align: center;text-transform: capitalize;">
+                                            {{item[0].date}}</div>
+                                    </ng-template>
+                                </kendo-chart-series-item-tooltip>
+                            </kendo-chart-series-item>
+                        </kendo-chart-series>
+                        <kendo-chart-area background="none"></kendo-chart-area>
+                        <kendo-chart-category-axis>
+                            <kendo-chart-category-axis-item [line]="{color:'#4a4a4a',width : '1'}"
+                                [categories]="branches_graph" [majorTicks]="{visible : false}"
+                                [labels]="{ font : 'CerebriSans-Bold',rotation: 'auto' }"
+                                [majorGridLines]="{visible : false}">
+                            </kendo-chart-category-axis-item>
+                        </kendo-chart-category-axis>
+
+                        <!-- <kendo-chart-value-axis>
+                            <kendo-chart-value-axis-item [line] = "{visible:false}" [majorTicks] = "{visible : false}" [labels] = "valueAxis.labels" [majorGridLines] = "{dashType : 'dash'}">
+                            </kendo-chart-value-axis-item>
+                        </kendo-chart-value-axis> -->
+                    </kendo-chart>
+                </div>
+
+                <div *ngIf="graphData?.response?.length == 0 && isLoadingGrpah == false"
+                    class="bg-white syra-font-primary-Regular shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365px">
+                    No Attendance :(
+                </div>
+
+                <div *ngIf="isLoadingGrpah == true"
+                class="bg-white syra-font-primary-Regular mt-4 shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365-40px">
+                Loading...
+            </div>
+
+                <div class="col-12 px-0">
+                    <div class="w-100 d-flex mx-0 mt-3 shadow-sm" *ngFor='let item of attendance, index as i'>
+                        <div #leftdiv id='left-div'
+                            class="small_text_logo d-flex align-items-center justify-content-center text-white syra-font-primary-bold font-14px"
+                            [ngStyle]="{'background-color': item.color,'max-width': '35px','max-height' : renderHeight,'cursor' : 'pointer'}"
+                            [matTooltip]="item.name" matTooltipClass="tooltip-list">
+                            <div class="my-3 text-truncate text-capitalize">{{item.barista_name}}</div>
+                        </div>
+                        <div #rightdiv
+                            class="attendance_list row mx-0 bg-white py-2 px-3 justify-content-around justify-content-sm-between">
+                            <div class='row mx-0 px-0 bg-white border styledTableCell m-1'>
+                                <div class="col-12 px-0 pt-3 font-12px syra-font-primary-bold">Total</div>
+                                <div class="col-12 font-16px syra-font-primary-bold"><span
+                                        class="h-100 font-size-20">{{item.hours}}</span></div>
+                            </div>
+
+                            <div class='row mx-0 px-0 bg-white border styledTableCell m-1'>
+                                <div class="col-12 px-0 pt-3 font-12px syra-font-primary-bold"># Working Days</div>
+                                <div class="col-12 font-16px syra-font-primary-bold">
+                                    <span class="font-size-20">{{item.no_days_worked}}</span>
+                                </div>
+                            </div>
+                            <div class='row mx-0 px-0 bg-white border styledTableCell m-1'>
+                                <div class="col-12 px-0 pt-3 font-12px syra-font-primary-bold"># of Locations</div>
+                                <div class="col-12 font-16px syra-font-primary-bold">
+                                    <span class="font-size-20">{{item.no_of_branches_worked}}</span>
+                                </div>
+                            </div>
+                            <div class='row mx-0 px-0 bg-white border styledTableCell m-1'>
+                                <div class="col-12 px-0 pt-3 font-12px syra-font-primary-bold"># of Transactions
+                                </div>
+                                <div class="col-12 font-16px syra-font-primary-bold"><span
+                                        class="font-size-20">{{item.txn_data.count}}</span>
+                                </div>
+                            </div>
+                            <div class='row mx-0 px-0 bg-white border styledTableCell m-1'>
+                                <div class="col-12 px-0 pt-3 font-12px syra-font-primary-bold">Total Transacted
+                                </div>
+                                <div class="col-12 font-16px syra-font-primary-bold">
+                                    <span class="font-size-20">€{{item.txn_data.total_amount?.toFixed(2) ||
+                                        "0.00"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-4 col-sm-12 pl-30 pr-30">
+        <div class="col-12 pt-30 pb-30">
+            <div class="row mx-0">
+                <button class="col-12 py-2 bg-white curve-left curve-right all-user-dropdown" (click)=toggleAction()>
+                    <div class="row px-0">
+                        <div class="col-8 px-3 text-left">{{UserFilterTitle}}</div>
+                        <div class="col-4">
+                            <fa-icon [icon]='isBaristasCheckable ? faArrowDown : faChevronDown' id="icon"
+                                class="text-right" style="position: absolute;right: 15px;"></fa-icon>
+                        </div>
+                    </div>
+                </button>
+                <div class="col-12 p-3 mt-3 curve-left curve-right"
+                    [ngClass]="isBaristasCheckable ? 'bg-fill' : 'bg-none'" *ngIf="barista_list.length > 0">
+                    <div class="p-2" *ngFor='let user of barista_list, let user_list_i of barista_list_backup'
+                        style="font-family: CerebriSans-Regular;">
+                        <div class="row mx-0 position-relative">
+                            <mat-checkbox [matTooltip]="user_list_i.barista_name" matTooltipClass="tooltip-list"
+                                style="font-family: CerebriSans-Regular;" class="w-100 h-17px my-checkbox"
+                                [ngClass]="!isBaristasCheckable ? 'd-none' : 'd-block'"
+                                (change)="handleSelection($event.checked,user._id,user.barista_name)">
+                                <div class="ml-2 text-truncate text-capitalize">
+                                    {{user_list_i.barista_name}}
+                                </div>
+                            </mat-checkbox>
+                            <div class="w-17px h-17px rounded mr-3"
+                                [ngClass]="isBaristasCheckable ? 'd-none' : 'd-block position-absolute l-0'"
+                                [ngStyle]="{'background-color': user.color}"></div>
+                            <div [ngClass]="isBaristasCheckable ? 'd-none' : 'd-block pl-4 ml-1 text-truncate'"
+                                class="text-capitalize">
+                                {{user.barista_name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isLoadingUsers == true"
+                    class="bg-white syra-font-primary-Regular mt-4 shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365-40px">
+                    Loading...
+                </div>
+
+                <div *ngIf="barista_list.length == 0 && isLoadingUsers == false"
+                    class="bg-white syra-font-primary-Regular mt-4 shadow-sm position-relative d-flex justify-content-center align-items-center w-100 h-365-40px">
+                    No Barita logged-in :(
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<ejs-chart>
+    <e-series-collection>
+        <e-series *ngFor="let item of chart_data,index as i" [dataSource]='item' type='RangeColumn'
+            xName='x' high='to' low='from' name='{{users[i].user_name}}' width=2> </e-series>
+    </e-series-collection>
+</ejs-chart> -->

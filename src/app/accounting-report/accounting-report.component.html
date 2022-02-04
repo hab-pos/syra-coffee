@@ -1,0 +1,180 @@
+<div class="container wrapper">
+    <div class="row mx-4">
+        <div class="col-12 h-100 col-12 px-0">
+            <div class='col-12'>
+                <div class="row justify-content-end">
+                    <button class="border-0 text-white exportBtn shadow-sm rounded-sm">
+                        <fa-icon [icon]="faList" class="pr-2 text-white"></fa-icon>
+                        <span>INVOICES</span>
+                    </button>
+                    <button class="border-0 text-white ml-4 exportBtn mw-100x shadow-sm rounded-sm" (click) = "sendReport()">
+                        <img *ngIf="loadingSendMail == true" src="{{url_loading}}" alt="" width="100" class="position-absolute" style = "right: -26px;top: -31px;">
+                        <fa-icon [icon]="faPaperPlane" class="px-2 text-white"></fa-icon>
+                        <span>SEND</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mx-4 py-4">
+        <div class="col-12 px-0 shadow-sm">
+            <div class="col-12 py-3 px-4 title sticky-top z-index-1" style="font-size: 15px;">
+                INFORME DE IVA
+            </div>
+
+            <div class="col-12 bg-white">
+                <div class="row h-100">
+                    <div class="col-md-3 col-sm-12 border border-left-0 border-top-0" style="height: 250px;"  *ngIf = "iva_data.length > 0">
+                        <ejs-accumulationchart #vatChart [tooltip]="tooltip" class="chartClass">
+                            <e-accumulation-series-collection>
+                                <e-accumulation-series type='Pie' [dataSource]='iva_data' xName='tax_percent'
+                                    yName='total_with_tax' [pointColorMapping]='map' radius="75%">
+                                </e-accumulation-series>
+                            </e-accumulation-series-collection>
+                        </ejs-accumulationchart>
+                    </div>
+                    <div *ngIf="isLoadingVat == true"
+                        class="bg-white d-flex align-items-center justify-content-center z-index-2 alpha50 content position-absolute left-0 w-100 h-100">
+                        <span class="mt-5"> Loading...</span>
+                    </div>
+
+                    <div class="col-md-9 border border-left-0 border-top-0 col-sm-12 h-100 px-0 z-index-0 table-w-350-scroll" style="min-height: 250px; max-height: 250px;" *ngIf="isLoadingVat == true || iva_data.length > 0">
+                        <table mat-table [dataSource]="iva_data" class="w-100 syra-table h-100 accounting-table_decorator" [ngClass] = "iva_data.length <=3 ? 'accounting-table' : ''" *ngIf = "iva_data.length > 0">
+                            <ng-container matColumnDef="mode">
+                                <th mat-header-cell *matHeaderCellDef class="text-left w-25 p-24"
+                                    style="font-size : 12px">{{display_headers_iva[0]}} (in %)</th>
+                                <td mat-cell *matCellDef="let element" class="p-24">
+                                    <div class="d-flex align-items-center">
+                                        <div class="template-color mr-3"
+                                            [ngStyle]="{'background-color': element.color}"></div>
+                                        <span class="ml-1 text-left">{{element.tax_percent}}%</span>
+                                    </div>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef
+                                    class="text-left footer-title pl-5 border-bottom-0 text-uppercase p-24" [ngClass] = "iva_data.length > 3 ? 'border-top' : ''"> Total</td>
+                            </ng-container>
+                            <ng-container matColumnDef="number">
+                                <th mat-header-cell *matHeaderCellDef class="text-center w-25" style="font-size : 12px">
+                                    {{display_headers_iva[1]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    {{element.tax_amount}}€
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center border-bottom-0 " [ngClass] = "iva_data.length > 3 ? 'border-top' : ''">
+                                    {{getTotalCost('number',false).toFixed(2)}}€ </td>
+                            </ng-container>
+                            <ng-container matColumnDef="turn_over">
+                                <th mat-header-cell *matHeaderCellDef class="text-center w-25 p-24"
+                                    style="font-size : 12px">{{display_headers_iva[2]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center p-24">
+                                    {{element.total_without_tax}}€
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef
+                                    class="text-center border-bottom-0  p-24" [ngClass] = "iva_data.length > 3 ? 'border-top' : ''">
+                                    {{getTotalCost('turnover',false).toFixed(2)}}€ </td>
+                            </ng-container>
+                            <ng-container matColumnDef="imported">
+                                <th mat-header-cell *matHeaderCellDef class="text-center w-25" style="font-size : 12px">
+                                    {{display_headers_iva[3]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    {{element.total_with_tax}}€
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center border-bottom-0" [ngClass] = "iva_data.length > 3 ? 'border-top' : ''">
+                                    {{getTotalCost('imported',false).toFixed(2)}}€ </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="display_coloumns_payment; sticky: true">
+                            <tr mat-row *matRowDef="let row; columns: display_coloumns_payment" class="p-0"></tr>
+                            <tr mat-footer-row *matFooterRowDef="display_coloumns_payment; sticky : iva_data.length > 3"
+                                    class="border-top"></tr>
+
+                        </table>
+                    </div>
+                    <div *ngIf="iva_data.length == 0 && isLoadingVat == false"
+                            class="d-flex justify-content-center align-items-center w-100"
+                            style="min-height: 250px; font-size: 16; max-height: 250px;">
+                            No Transaction found
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mx-4 pb-30">
+        <div class="col-12 px-0">
+            <div class="col-12 py-3 px-4 title sticky-top z-index-1" style="font-size: 15px;">
+                RESUMEN DE COBROS
+            </div>
+
+            <div class="col-12 bg-white shadow-sm">
+                <div class="row h-100">
+                    <div class="col-md-3 col-sm-12 border border-left-0 border-top-0" style="height: 250px;" *ngIf = "payment_data.length > 0">
+                        <ejs-accumulationchart #Payoutchart [tooltip]="tootip_payout" class="chartClass">
+                            <e-accumulation-series-collection>
+                                <e-accumulation-series type='Pie' [dataSource]='payment_data' xName='Payment_method'
+                                    yName='total_payable_str' [pointColorMapping]='map' radius="75%">
+                                </e-accumulation-series>
+                            </e-accumulation-series-collection>
+                        </ejs-accumulationchart>
+                    </div>
+                    <div *ngIf="isLoadingpayout == true"
+                        class="bg-white d-flex align-items-center justify-content-center z-index-2 alpha50 content position-absolute left-0 w-100 h-100">
+                        <span class="mt-5"> Loading...</span>
+                    </div>
+                    <div *ngIf="payment_data.length == 0 && isLoadingpayout == false"
+                    class="d-flex justify-content-center align-items-center w-100"
+                    style="min-height: 250px; font-size: 16;">
+                    No Transaction found
+                </div>
+                    <div class="col-md-9 border border-left-0 border-top-0 col-sm-12 h-100 px-0 z-index-0 table-w-350-scroll" style="min-height: 250px; max-height: 250px;" *ngIf="isLoadingpayout == true || payment_data.length > 0">
+                        <table mat-table [dataSource]="payment_data" class="w-100 syra-table accounting-table accounting-table_decorator" *ngIf="payment_data.length > 0">
+                            <ng-container matColumnDef="mode">
+                                <th mat-header-cell *matHeaderCellDef class="text-left p-24 w-25" style="font-size : 12px">
+                                    {{display_headers_payment[0]}}</th>
+                                <td mat-cell *matCellDef="let element" class="p-24">
+                                    <div class="d-flex align-items-center">
+                                        <div class="template-color mr-3"
+                                            [ngStyle]="{'background-color': element.color}"></div>
+                                        <span class="ml-1 text-left">{{element.Payment_method}}</span>
+                                    </div>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef
+                                    class="text-left footer-title p-24 border-bottom-0  text-uppercase"> Total</td>
+                            </ng-container>
+                            <ng-container matColumnDef="number">
+                                <th mat-header-cell *matHeaderCellDef class="text-center w-25" style="font-size : 12px">
+                                    {{display_headers_payment[1]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    {{element.count}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center border-bottom-0 ">
+                                    {{getTotalCost('number')}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="turn_over">
+                                <th mat-header-cell *matHeaderCellDef class="text-center p-24 w-25" style="font-size : 12px">
+                                    {{display_headers_payment[2]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center p-24">
+                                    {{(element.total_payable / total_Txn * 100).toFixed(2)}}%
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef
+                                    class="text-center border-bottom-0  p-24">
+                                    {{getTotalCost('turnover').toFixed(2)}}% </td>
+                            </ng-container>
+                            <ng-container matColumnDef="imported">
+                                <th mat-header-cell *matHeaderCellDef class="text-center w-25" style="font-size : 12px">
+                                    {{display_headers_payment[3]}}</th>
+                                <td mat-cell *matCellDef="let element" class="text-center">
+                                    {{element.total_payable.toFixed(2)}}€
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef class="text-center border-bottom-0 ">
+                                    {{getTotalCost('imported').toFixed(2)}}€ </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="display_coloumns_payment; sticky: true">
+                            <tr mat-row *matRowDef="let row; columns: display_coloumns_payment" class="p-0"></tr>
+                            <tr mat-footer-row *matFooterRowDef="display_coloumns_payment" class="border-top"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.p-a {
+  z-index: 1 !important;
+  background-color: white;
+  height: 85vh;
+  overflow: auto;
+}
+
+.w85h-15 {
+  z-index: 1 !important;
+  background-color: white;
+  height: calc(100% - 85vh - 0.25rem);
+}
+
+.bg-background {
+  background-color: #f0f0f0;
+}
+
+.tab-title {
+  font-size: 14px;
+  color: #4A4A4A;
+  font-family: "CerebriSans-Bold";
+}
+
+.line_add_product {
+  height: 2px;
+  width: 100%;
+  background-color: #707070;
+}
+
+.unit-text {
+  color: #4a4a4a;
+  font-size: 10px;
+  font-family: "CerebriSans-Light";
+}
+
+.w-25px {
+  width: 17px;
+}
+
+.h-25px {
+  height: 17px;
+}
+
+.rounded-corner {
+  border-radius: 50%;
+}
+
+.inventory-text {
+  color: #4a4a4a;
+  font-size: 13.5px;
+  line-break: anywhere;
+  font-family: " CerebriSans-semibold";
+}
+
+.heading-text {
+  color: #4a4a4a;
+  font-family: "CerebriSans-Bold";
+  font-size: 15px;
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.mb-10px {
+  margin-bottom: 10px;
+}
+
+.rounded-corner {
+  border-radius: 50%;
+}
+
+.border-sm {
+  border-style: solid;
+  border-width: 1.8px;
+  border-color: #4a4a4a;
+}
+
+.b-shadow {
+  box-shadow: 0 3px 6px 0 rgba(20, 20, 20, 0.16);
+}
+
+@media (max-width: 992px) {
+  .tab-title {
+    font-size: 13px !important;
+  }
+}
+.btn-success {
+  background-color: #679187;
+  border-radius: 0px;
+  border-style: none;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  min-width: 240px;
+  min-height: 40px;
+}
+.btn-success:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.btn-success:hover {
+  opacity: 0.9;
+}

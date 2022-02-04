@@ -1,0 +1,160 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="w-100 h-100 scroll_none">
+    <div class="title text-center sticky-top">
+        <button (click)="sidenav.close()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        {{ field == 'story' && action == 'add' ? 'ADD STORY' : 'EDIT STORY' }}
+    </div>
+    <div class="mx-2 {{action == 'edit'?'h-product-eidt':'h-product'}}">
+        <div class="form-group mx-3">
+            <form [formGroup]="storyform">
+                <div class="form-group mx-2 w-100">
+                    <div class="input-group ">
+                        <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                            <label>Title</label>
+                        </div>
+                        <input type="text" #title class="form-control w-100" placeholder="Title"
+                            formControlName="title">
+                    </div>
+                </div>
+            </form>
+            <div class="form-group mx-2 w-100">
+                <div class="input-group notes">
+                    <div class="text-left col-12 mx-0 p-0">
+                        <label>Products</label>
+                    </div>
+                    <div class="form-control w-100 notes_select event-mat-select">
+                        <mat-select #matProduct placeholder="Products" class="option_down_line_prod"
+                            panelClass="storyPanel" [(value)]="selectedProducts" [disableOptionCentering] = "true">
+                            <mat-optgroup *ngFor="let group of product_list,let index_cat = index"
+                                class="bg-danger product_box">
+                                <div class="border-category">{{group.category_details.category_name}}</div>
+                                <mat-option *ngFor="let name of group.products;let i = index;let last = last"
+                                    class="mx-2 product-option py-3" value="{{ name._id }}">
+                                    <div class="opt-body" [ngClass]="{'border_none': last == true }">
+                                        <img src={{name.image_url}} width="30" height="30" class="pr-2 py-1">
+                                        {{name.product_name}}
+                                        <!-- <mat-checkbox [checked] = "name.checked" class = "position-absolute r30px d-flex align-items-center justify-content-end" style="width: 30px ; height : 30px;" disableRipple></mat-checkbox> -->
+                                    </div>
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-select>
+                        <button type="button" class="position-absolute btn-add border-0 bg-transparent w35 r0"
+                            (click)="matProduct.open()">
+                            <fa-icon [icon]='faCaretDown'></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mx-2 w-100 mt-lg-2">
+                <div class="input-group img-upload">
+                    <div class="w-100 z-ind1">
+                        <p class="mb-0 img-head text-center py-3">THUMBNAIL PHOTO</p>
+                    </div>
+                    <div class="h-200 bg-white-img w-100 d-flex align-items-center px-lg-5 px-4">
+                        <div class="">
+                            <img [src]="imgURL" height="88" class="event-img-width" *ngIf="imgURL">
+                            <div class="border-dotted event-img-box d-flex justify-content-center align-items-center"
+                                *ngIf="!imgURL">Upload</div>
+                        </div>
+                        <div class="w-100 d-flex justify-content-end">
+                            <span style="color:red;" *ngIf="message">{{message}}</span>
+                            <label class="upload-png px-3 justify-content-end">Upload PNG
+                                <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                    class="input-img" style="display: none;" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let story_check of story;let i = index;" class="w-100 mx-2">
+                <div class="form-group w-100 mt-lg-2" *ngIf="story_check.type == 'image'">
+                    <div class="input-group img-upload">
+                        <div class="w-100 z-ind1">
+                            <p class="mb-0 img-head text-center py-3">IMAGE</p>
+                        </div>
+                        <div class="h-200 bg-white-img w-100 d-flex align-items-center px-lg-5 px-4">
+                            <div class="">
+                                <img [src]="story_check.value" height="88" class="event-img-width"
+                                    *ngIf="story_check.value">
+                                <div class="border-dotted event-img-box d-flex justify-content-center align-items-center"
+                                    *ngIf="!story_check.value">Upload</div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-end">
+                                <span style="color:red;" *ngIf="message">{{message}}</span>
+                                <label class="upload-png px-3 justify-content-end">Upload PNG
+                                    <input #filee type="file" accept='image/*' (change)="preview_cover(filee.files,i)"
+                                        class="input-img" style="display: none;" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-lg-2 w-100 event_form quill-box" *ngIf="story_check.type == 'text'">
+                    <div class="input-group img-upload">
+                        <div class="w-100 z-ind1">
+                            <p class="mb-0 img-head text-center py-3">COPY</p>
+                        </div>
+                        <div class="h-250 bg-white-img w-100 d-flex justify-content-center">
+                            <quill-editor class="pt-2" [ngModel]="story_check.value" (onContentChanged)="onContentChanged($event,i)">
+                                <div quill-editor-toolbar>
+                                    <span class="ql-formats d-flex mr-0">
+                                        <button class="ql-bold" [title]="'Bold'"></button>
+                                        <button class="ql-italic" [title]="'italic'"></button>
+                                        <button class="ql-link" [title]="'link'"></button>
+                                        <div class="ml-auto">
+                                            <button class="ql-header" [title]="'header'">H</button>
+                                            <button class="ql-paragraph" [title]="'paragraph'">P</button>
+                                        </div>
+                                    </span>
+                                </div>
+                            </quill-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mx-2 w-100 mt-lg-2">
+                <div class="img-upload d-flex justify-content-center">
+                    <div class="d-flex">
+                        <div class="d-flex justify-content-center px-3">
+                            <button
+                                class="border-0 bg-green w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                (click)="add_image()" style="font-size: 9px;">
+                                <fa-icon [icon]='faPlusCircle' class="clr-white"></fa-icon>
+                            </button>
+                            <label class="add_img pl-2 mb-0" (click)="add_image()">ADD IMAGE
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-center px-3">
+                            <button
+                                class="border-0 bg-green w-25px h-25px rounded-corner d-flex align-items-center justify-content-center"
+                                (click)="add_text()" style="font-size: 9px;">
+                                <fa-icon [icon]='faPlusCircle' class="clr-white"></fa-icon>
+                            </button>
+                            <p class="text_box mb-0 pl-2" (click)="add_text()">ADD TEXT BOX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="row mx-0 justify-content-center align-items-center shadow-top"
+            style="margin-left : -10px; margin-right: -10px;background-color: #F5F5F5;">
+            <div class="col-12  d-flex justify-content-center {{action =='edit' ? 'py-3':'py-4'}}">
+                <button type="submit" (click)="saveAction()" class="btn text-white btn-sm">
+                    <i *ngIf="isLoadingAdd == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>SAVE</span>
+                </button>
+            </div>
+            <div class="col-12 pb-3 d-flex justify-content-center pb-4" *ngIf="field == 'story' && action == 'edit'">
+                <button (click)="deleteAction()" class="btn-danger">
+                    <i *ngIf="isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+                    <span>DELETE ITEM</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+@import "../../public/Fonts/fonts";
+@import "../../public/Colors/colors";
+
+.container{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    min-height: 100vh;
+}
+.alert-primary{
+    position: fixed;
+    right: 0;
+    width: auto;
+    font-family: $halvetica_new_bold;
+    display: flex;
+    justify-content: end;
+    font-size: smaller;
+}
+
+.showLoader{
+    display: inline;
+}
+.hideLoader{
+    display: none;
+}

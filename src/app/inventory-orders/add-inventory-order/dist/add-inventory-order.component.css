@@ -1,0 +1,267 @@
+@font-face {
+  font-family: "HelveticaNeue-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("HelveticaNeue-Bold"), url("./helveticaneue/Helvetica Neu Bold.ttf") format("ttf");
+}
+@font-face {
+  font-family: "CerebriSans-Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: " CerebriSans-semibold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.ttf") format("ttf");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.eot") format("eot");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.svg") format("svg");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff") format("woff");
+  src: local("CerebriSans-Bold"), url("./CerebriSans/CerebriSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "CerebriSans-Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.ttf") format("ttf");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.eot") format("eot");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.svg") format("svg");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff") format("woff");
+  src: local("CerebriSans-Regular"), url("./CerebriSans/CerebriSans-Regular.woff2") format("woff2");
+}
+.mt-35px {
+  margin-top: 35px;
+}
+
+.mx-35px {
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.heading-text {
+  color: #4a4a4a;
+  font-family: "CerebriSans-Bold";
+  font-size: 15px;
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.mb-10px {
+  margin-bottom: 10px;
+}
+
+.content-text {
+  color: #4a4a4a;
+  font-family: "CerebriSans-Regular";
+  font-size: 15px !important;
+}
+
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #4a4a4a;
+}
+
+.unit-text {
+  color: #4a4a4a;
+  font-size: 10px;
+  font-family: "CerebriSans-Light";
+}
+
+.w-25px {
+  width: 17px;
+}
+
+.h-25px {
+  height: 17px;
+}
+
+.rounded-corner {
+  border-radius: 50%;
+}
+
+.inventory-text {
+  color: #4a4a4a;
+  font-size: 13.5px;
+}
+
+.border-sm {
+  border-style: solid;
+  border-width: 1.8px;
+  border-color: #4a4a4a;
+}
+
+.rounded-10px {
+  border-radius: 10px;
+}
+
+.comment-box {
+  resize: none;
+  font-family: "CerebriSans-Regular";
+  color: #4a4a4a;
+  font-size: 15px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: black;
+}
+.comment-box:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-success {
+  background-color: #679187;
+  border-radius: 0px;
+  border-style: none;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  min-width: 240px;
+  min-height: 40px;
+}
+.btn-success:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.btn-success:hover {
+  opacity: 0.9;
+}
+
+.btn-danger {
+  min-width: 240px;
+  min-height: 40px;
+  border-style: none;
+  border-radius: 0px;
+  box-shadow: 0 3px 6px 0 rgba(87, 87, 87, 0.51);
+}
+.btn-danger:focus {
+  outline: none;
+  box-shadow: none;
+  outline: none;
+}
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.h-80 {
+  height: 80vh;
+  overflow: auto;
+}
+
+.h-20 {
+  height: 20vh;
+}
+
+/*new classes*/
+.border_circle {
+  border: none !important;
+  background-color: #5D5D5D !important;
+  color: White;
+}
+
+.header {
+  background-color: #f7f7f7;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  z-index: 3;
+}
+
+.header-title {
+  font-family: "CerebriSans-Light";
+  display: flex;
+  align-items: center;
+  color: #666666;
+  font-size: 30px;
+  width: fit-content;
+  margin: 1.1em 1.1em 1.1em 0.3em;
+}
+
+.ml-133 {
+  margin-left: 133px;
+}
+
+.mat-form-field {
+  font-family: "CerebriSans-Regular";
+  height: 40px;
+}
+
+.mat-date-range-input-inner[disabled] {
+  color: #4a4a4a;
+  font-family: "CerebriSans-Regular";
+}
+
+.exportMenu {
+  width: 35px;
+  height: 35px;
+  background: #679187;
+  padding-right: 0px;
+  border-radius: 3px;
+}
+.exportMenu:focus {
+  outline: none;
+  box-shadow: none;
+}
+.exportMenu:hover {
+  opacity: 0.95;
+}
+
+.mat-select {
+  width: 77.5%;
+}
+
+.mat-option:hover:not(.mat-option-disabled) {
+  background: rgba(0, 0, 0, 0.04);
+  color: #679187;
+}
+
+::ng-deep div.mat-form-field-outline-start {
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-form-field-outline-gap {
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-form-field-outline-end {
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  display: none !important;
+}
+
+::ng-deep .mat-option .mat-pseudo-checkbox-checked {
+  background-color: green !important;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: #4a4a4a !important;
+  font-family: "CerebriSans-Regular" !important;
+  font-size: 15px !important;
+}
+
+::ng-deep .mat-form-field-label {
+  margin: 0;
+}

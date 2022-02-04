@@ -1,0 +1,111 @@
+@import "../../public/Colors/colors";
+@import "../../public/Fonts/fonts";
+
+.wrapper {
+    margin-top: 130px;
+    font-family: $CerebriSans_bold;
+}
+
+.mx-100vh {
+    max-height: 100vh;
+}
+
+.h-75vh {
+    height: 75vh;
+    overflow: hidden;
+}
+
+.w-12 {
+    width: 12%;
+}
+
+.bg-background {
+    background-color: #F0F0F0;
+}
+
+.total-billing {
+    font-size: 38px;
+    color: #DB6F6F;
+}
+.total-billing-profit {
+    font-size: 38px;
+    color: #7ABEB9;
+}
+
+.circle {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+}
+
+::ng-deep .categories_list.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background,
+.mat-accent .mat-pseudo-checkbox-checked,
+.mat-accent .mat-pseudo-checkbox-indeterminate,
+.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-indeterminate {
+    background-color: #679187 !important;
+}
+
+::ng-deep .categories_list .mat-ripple-element {
+    background-color: #679187 !important;
+}
+
+::ng-deep .categories_list.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #679187 !important;
+    border : none
+}
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    background-color: transparent !important;
+}
+
+::ng-deep .categories_list .mat-checkbox-checkmark-path {
+    stroke: white !important;
+}
+::ng-deep .categories_list .mat-checkbox-inner-container {
+    width: 16px !important;
+    height: 16px !important;
+}
+::ng-deep .categories_list .mat-checkbox-layout {
+    width: 100% !important;
+}
+
+::ng-deep .categories_list .mat-checkbox-layout .mat-checkbox-label {
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+::ng-deep ejs-chart svg g g g text {
+    font-family: $CerebriSans_bold !important;
+}
+
+input.mat-chip-input {
+    margin: 0px !important;
+    background-color: white;
+    padding-left: 15px;
+    font-family: $CerebriSans_Regular;
+}
+
+::ng-deep .text-center .mat-sort-header-container {
+    justify-content: center !important;
+}
+
+.mat-chip.mat-standard-chip .mat-chip-remove {
+    opacity: unset !important;
+
+    &:focus {
+        opacity: unset !important;
+    }
+}
+.h-365px{
+    height: 365px;
+}
+.h-100px{
+    height:  100px;
+}
+.mat-standard-chip:hover::after {
+    opacity: 0;
+}

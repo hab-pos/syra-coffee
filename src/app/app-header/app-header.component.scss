@@ -1,0 +1,109 @@
+@import "../../public/Fonts/fonts";
+@import "../../public/Colors/colors";
+
+.header {
+  background-color: $AppSecondaryColor;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  z-index: 3;
+}
+
+.header-title {
+  font-family: $CerebriSans_Light;
+  display: flex;
+  align-items: center;
+  color: #666666;
+  font-size: 30px;
+  width: fit-content;
+  margin: 1.1em 1.1em 1.1em 0.3em;
+}
+.ml-133{
+  margin-left: 133px;
+}
+
+.calenderToday{
+  font-family: $CerebriSans_Regular;
+  font-size: 14.5px;
+  color : #4a4a4a
+}
+.mat-form-field {
+  font-family: $CerebriSans_Light;
+  width: 175px;  
+  height: 40px;
+}
+.mat-date-range-input-inner[disabled] {
+  color: #4a4a4a;
+  font-family: $CerebriSans_Regular;
+}
+
+
+
+.exportMenu{
+  width: 35px;
+  height: 35px;
+  background: #679187;
+  padding-right: 0px;
+  border-radius: 3px;
+  &:focus{
+    outline: none;
+    box-shadow: none;
+  }
+  &:hover{
+    opacity: 0.95;
+  }
+}
+.mat-select{
+  width: 77.5%;
+}
+
+.mat-option:hover:not(.mat-option-disabled) {
+  background: rgba(0, 0, 0, .04);
+  color: #679187;
+}
+
+::ng-deep div.mat-form-field-outline-start{
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-form-field-outline-gap{
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-form-field-outline-end{
+  border-color: 0 !important;
+  border-width: 0px !important;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  display: none !important;
+}
+
+.dayMnthYrBtn{
+  border: none;
+    border-radius: 3px;
+    color: white;
+    background: #679187;
+    padding: 5px 10px;
+    font-family: $CerebriSans_Regular;
+}
+.datepicker-footer {
+  width: 100%;
+  padding: 0 1.125rem 1.125rem 1.125rem;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+::ng-deep .mat-option .mat-pseudo-checkbox-checked {
+  background-color: green !important;
+}
+::ng-deep .mat-select-placeholder{
+  color: #4a4a4a !important;
+  font-family: $CerebriSans_Regular !important;
+  font-size: 14.5px !important; 
+}
+
+::ng-deep .mat-form-field-label {
+  margin: 0;
+}

@@ -1,0 +1,331 @@
+<div class="row mx-md-5 mx-sm-2 pb-5">
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row justify-content-between mx-0">
+            <div class="col-lg-4 col-md-12 pl-0 pr-md-0 pr-sm-0 pr-lg-4">
+                <div class="col-12 bg-white mb-md-3 px-0 shadow-sm" style="height: 160px">
+                    <div class="col-12 px-0">
+                        <div class="col-12 d-flex pt-25 justify-content-center top-lbl-title">
+                            Users
+                        </div>
+                        <div class="col-12 d-flex pt-4 justify-content-center top-lbl-value">
+                            1,320
+                        </div>
+                        <div class="col-12 pt-4">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2 bg-profit"
+                                        [ngStyle]="{'transform':'rotate(-125deg)' }">
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center text-white justify-content-center h-100"
+                                            style="font-size: 12px;">
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto top-lbl-profit text-profit">
+                                    +35.25% <span style="color: #4a4a4a;"> VS.1503</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 px-md-0 px-lg-2">
+                <div class="col-12 bg-white mb-md-3 px-0 shadow-sm" style="height: 160px">
+                    <div class="col-12 px-0">
+                        <div class="col-12 d-flex pt-25 justify-content-center top-lbl-title">
+                            Beans Generated
+                        </div>
+                        <div class="col-12 d-flex pt-4 justify-content-center top-lbl-value">
+                            225
+                        </div>
+                        <div class="col-12 pt-4">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2 bg-loss"
+                                        [ngStyle]="{'transform':'rotate(-45deg)' }">
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center text-loss justify-content-center h-100"
+                                            style="font-size: 12px;">
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto top-lbl-profit text-loss">
+                                    -35.25% <span style="color: #4a4a4a;"> VS.315</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 pr-0 pl-md-0 pl-sm-0 pl-lg-4">
+                <div class="col-12 bg-white mb-md-3 px-0 shadow-sm" style="height: 160px">
+                    <div class="col-12 px-0">
+                        <div class="col-12 d-flex pt-25 justify-content-center top-lbl-title">
+                            Beans Used
+                        </div>
+                        <div class="col-12 d-flex pt-4 justify-content-center top-lbl-value">
+                            67
+                        </div>
+                        <div class="col-12 pt-4">
+                            <div class="row justify-content-center text-center">
+                                <div class="mt-auto mb-auto">
+                                    <div class="circle-financial-stmt  mr-2 bg-profit"
+                                        [ngStyle]="{'transform':'rotate(-125deg)' }">
+                                        <fa-icon [icon]='faArrowDown'
+                                            class="d-flex align-items-center text-white justify-content-center h-100"
+                                            style="font-size: 12px;">
+                                        </fa-icon>
+                                    </div>
+                                </div>
+                                <div class="mt-2px mt-auto mb-auto top-lbl-profit text-profit">
+                                    +35.25% <span style="color: #4a4a4a;"> VS.87</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-30 w-100">
+        <div class="row mx-0 bg-white shadow-sm position-relative">
+            <div
+                class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                USERS REVENUE PER CHANNEL </div>
+            <div class="col-lg-8 col-md-12 col-sm-12 px-0 h-365px pt-5">
+                <ejs-chart [primaryXAxis]='primaryXAxis' [primaryYAxis]='primary_stacked_col_y_price' id="chart_revenue"
+                    [tooltip]="tooltipGlobal" [chartArea]='chartArea' style="width: 100%; height: 100%;">
+                    <e-series-collection>
+                        <e-series *ngFor="let item of graphData,index as i" [dataSource]='item' type='StackingColumn'
+                            xName='hour' yName='amount' fill='{{pallets[i]}}' columnSpacing='0.6'>
+                        </e-series>
+                    </e-series-collection>
+                </ejs-chart>
+            </div>
+
+            <div class="col-lg-4 col-sm-12 col-md-12 px-5 pt-5 h-365px">
+                <div class="col-12" style="overflow: auto;">
+                    <div class="row mx-0 pb-3" *ngFor="let item of groupe_mode_of_sales,index as i">
+                        <div class="square-20" [ngStyle]="{'background-color': pallets[i]}"></div>
+                        <span class="pl-3" style="font-family: 'CerebriSans-Bold';">{{item}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row mx-0 bg-white shadow-sm position-relative">
+            <div
+                class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                USERS TRANSACTIONS PER CHANNEL </div>
+            <div class="col-lg-8 col-md-12 col-sm-12 px-0 h-365px pt-5">
+                <ejs-chart [primaryXAxis]='primaryXAxis' [primaryYAxis]='primary_stacked_col_y_qty'
+                    id="chart_transaction" [tooltip]="tooltipGlobal" [chartArea]='chartArea'
+                    style="width: 100%; height: 100%;">
+                    <e-series-collection>
+                        <e-series *ngFor="let item of graphData,index as i" [dataSource]='item' type='StackingColumn'
+                            xName='hour' yName='amount' fill='{{pallets[i]}}' columnSpacing='0.6'>
+                        </e-series>
+                    </e-series-collection>
+                </ejs-chart>
+            </div>
+
+            <div class="col-lg-4 col-sm-12 col-md-12 px-5 pt-5 h-365px">
+                <div class="col-12" style="overflow: auto;">
+                    <div class="row mx-0 pb-3" *ngFor="let item of groupe_mode_of_sales,index as i">
+                        <div class="square-20" [ngStyle]="{'background-color': pallets[i]}"></div>
+                        <span class="pl-3" style="font-family: 'CerebriSans-Bold';">{{item}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row mx-0">
+            <div class="col-6 pl-0">
+                <div class="row mx-0 bg-white shadow-sm position-relative">
+                    <div
+                        class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                        USERS PER STORE </div>
+                    <div class="col-lg-7 col-md-12 col-sm-12 px-0 h-340">
+                        <kendo-chart class="h-100 donut-chart">
+                            <kendo-chart-series>
+                                <kendo-chart-series-item [size]="65" [holeSize]="50" type="donut" [data]="donut_data"
+                                    categoryField="store" field="amount" colorField="color">
+                                    <kendo-chart-series-item-labels [content]="labelContent" color="#fff"
+                                        background="none" font="CerebriSans-Bold">
+                                    </kendo-chart-series-item-labels>
+                                </kendo-chart-series-item>
+                            </kendo-chart-series>
+                            <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+                        </kendo-chart>
+                    </div>
+
+                    <div class="col-lg-5 col-sm-12 col-md-12 pt-5 h-340">
+                        <div class="col-12 px-0" style="overflow: auto;">
+                            <div class="row mx-0 pb-3" *ngFor="let item of donut_data,index as i">
+                                <div class="square-10" [ngStyle]="{'background-color': item.color}"></div>
+                                <span class="pl-3 font-donut-legend">{{item.store}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 pr-0">
+                <div class="row mx-0 bg-white shadow-sm position-relative">
+                    <div
+                        class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                        AMOUNT PER STORE </div>
+                    <div class="col-lg-7 col-md-12 col-sm-12 px-0 h-340">
+                        <kendo-chart class="h-100 donut-chart">
+                            <kendo-chart-series>
+                                <kendo-chart-series-item [size]="65" [holeSize]="50" type="donut" [data]="donut_data"
+                                    categoryField="store" field="amount" colorField="color">
+                                    <kendo-chart-series-item-labels [content]="labelContent" color="#fff"
+                                        background="none" font="CerebriSans-Bold">
+                                    </kendo-chart-series-item-labels>
+                                </kendo-chart-series-item>
+                            </kendo-chart-series>
+                            <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+                        </kendo-chart>
+                    </div>
+
+                    <div class="col-lg-5 col-sm-12 col-md-12 pt-5 h-340">
+                        <div class="col-12 px-0" style="overflow: auto;">
+                            <div class="row mx-0 pb-3" *ngFor="let item of donut_data,index as i">
+                                <div class="square-10" [ngStyle]="{'background-color': item.color}"></div>
+                                <span class="pl-3 font-donut-legend">{{item.store}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row mx-0 bg-white shadow-sm position-relative">
+            <div
+                class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                USERS PER SHOP </div>
+            <div class="col-lg-8 col-md-12 col-sm-12 px-0 h-365px pt-5">
+                <ejs-chart [primaryXAxis]='primaryXAxis' [primaryYAxis]='primary_stacked_col_y_qty'
+                    id="chart_user_per_shop" [tooltip]="tooltipGlobal" [chartArea]='chartArea'
+                    style="width: 100%; height: 100%;">
+                    <e-series-collection>
+                        <e-series *ngFor="let item of graphData_per_branch,index as i" [dataSource]='item'
+                            type='StackingColumn' xName='hour' yName='amount' fill='{{pallets_branches[i]}}'
+                            columnSpacing='0.6'>
+                        </e-series>
+                    </e-series-collection>
+                </ejs-chart>
+            </div>
+
+            <div class="col-lg-4 col-sm-12 col-md-12 px-5 pt-5 h-365px">
+                <div class="col-12" style="overflow: auto;">
+                    <div class="row mx-0 pb-3" *ngFor="let item of branches,index as i">
+                        <div class="square-20" [ngStyle]="{'background-color': pallets_branches[i]}"></div>
+                        <span class="pl-3" style="font-family: 'CerebriSans-Bold';">{{item}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row mx-0 bg-white shadow-sm position-relative">
+            <div
+                class="col-12 px-0 chart-title d-flex align-items-center justify-content-center text-white text-uppercase">
+                MAP
+            </div>
+
+
+            <div id="map_area" class="h-465px w-100">
+            </div>
+            <div class="bg-white box-online-offline position-absolute shadow-lg rounded">
+                <div class="row m-0 p-2 align-items-center h-100">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <div class="circle-12 bg-danger"></div>
+                            <span class="pl-2">OFFLINE</span>
+                            <mat-checkbox [checked]=true (change)="offline_clicked($event.checked)"
+                                class="channel-type position-absolute right-20"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <div class="circle-12 bg-yellow"></div>
+                            <span class="pl-2">ONLINE</span>
+                            <mat-checkbox [checked]=true (change)="online_clicked($event.checked)"
+                                class="channel-type position-absolute right-20"></mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-12 pl-30 pr-30 pt-5 w-100">
+        <div class="row mx-0" style="overflow:auto">
+            <div class="col-12 title sticky-header p-3 syra-font-primary-bold">
+                    <span>USERS</span> 
+                    <button (click) = onClickFilter() class="position-absolute border-0 bg-transparent" style="right: 25px;">
+                        <img [src]="filterIconUrl" width="25" >
+                    </button>
+            </div>
+            <div class="col-12 px-0">
+                <table mat-table [dataSource]="dataSource" class="syra-table" matSort>
+                    <ng-container matColumnDef="{{column.header_id}}" *ngFor="let column of headers_json,index as i">
+                        <th mat-header-cell *matHeaderCellDef class="z-index-1 px-3 table-header" mat-sort-header  [ngClass] = "[column.header_Spans == i ? 'border-right' : '',i == 0 ? 'shadow-sm' : '']">
+                            <span class="text-left" [ngClass] = "[i == 0? 'w-75px' : 'w-125px']">{{column.header_title}}</span>
+                            <fa-icon [icon]='faSort' class="ml-2"></fa-icon>
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-left px-3" [ngClass] = "[column.header_Spans == i ? 'border-right' : '',i == 0 ? 'shadow-sm' : '']">
+                            <span>
+                                {{ element[column.header_id]}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="{{column.id}}" *ngFor="let column of header_Sections_json,index as i">
+                        <th mat-header-cell *matHeaderCellDef 
+                            [style.text-align]="center"
+                            [attr.colspan]="column.span" class="z-index-1 px-3 table-header" [ngClass] = "[i == 0 ? 'border-0' : 'border-right',i == 0 ? 'shadow-sm' : '']"> 
+                            {{header_Sections_json[i].title}}
+                        </th>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="get_section_user_table()"></tr>
+                    <tr mat-header-row *matHeaderRowDef="get_coloumns_user_table();" class="border-sm"></tr>
+                    <tr mat-row *matRowDef="let row; columns: get_coloumns_user_table()"></tr>
+                </table>
+            </div>
+            <div class="bg-white position-sticky more-col-indicator"></div>
+
+            <div class="bg-transparent table-filter px-0 position-absolute shadow-sm" style="width: 25px;height: calc(100% - 54px - 3rem);">
+                
+            </div>
+
+            <div class="bg-white table-filter col-lg-4 col-md-10 px-0 position-absolute shadow-lg font-16px" *ngIf = "isFilterChecked == true">
+                <div class="row m-0 px-3 py-2 align-items-center h-100">
+                    <div class="col-12 px-2 py-2 align-items-center h-100 border-bottom border-color-black">
+                        FILTER
+                    </div>
+                   <div class="col-6 px-2 py-3" *ngFor="let column of header_sections_json_backup,index as i" [ngClass] = "column.title == '' ? 'd-none' : ''">
+                    <div class="row mx-0">
+                        <span>{{column.title}}</span>
+                        <mat-checkbox [checked]=true
+                        class="channel-type position-absolute right-20" (change) = "chooseSections(i,$event.checked)"></mat-checkbox>
+                    </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

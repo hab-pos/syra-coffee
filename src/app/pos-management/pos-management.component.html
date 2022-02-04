@@ -1,0 +1,162 @@
+<!--  -->
+<div class="container wrapper">
+    <mat-sidenav-container class="bg-transparent">
+        <mat-sidenav #sidenav class="bg_color" [mode]="'over'" [position]='"end"'
+            [ngClass]="Pagewidth<=576 ? 'w-100' : 'w-370px' " (opened)="push()" (closed) = "close()">
+            <app-category-form *ngIf="field == 'category' " [sidenav]="sidenav" [field]="field" [action]="action"
+                [parentParams]="paramsFromParent">
+            </app-category-form>
+            <app-product-form *ngIf="field == 'product'" [sidenav]="sidenav" [field]="field" [action]="action">
+            </app-product-form>
+        </mat-sidenav>
+
+
+        <mat-sidenav-content class="mb-5">
+            <div class="mx-4">
+                <div class="row">
+                    <div class="col-md-12 col-lg-5 h-100">
+                        <div *ngIf="isLoadingCatelogy == true"
+                            class="bg-white d-flex align-items-center justify-content-center z-index-2 alpha50 content position-absolute left-0 w100-30px h-100">
+                            <span class="mt-5"> Loading...</span>
+                        </div>
+
+                        <div class='bg-white table-w-350-scroll' style="min-height: 96px;">
+                            <div class="col-12 text-center title sticky-top">
+                                <div class="row justify-content-center">
+                                    <span class="col-12">CATEGORIES</span>
+                                    <div class="add-btn">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('category','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="category?.length == 0 && isLoadingCatelogy == false"
+                                class="d-flex justify-content-center align-items-center "
+                                style="min-height: 100px; font-size: 16;">
+                                No category Found
+                            </div>
+
+                            <table #table mat-table [dataSource]="category" class="syra-table w-100" cdkDropList
+                                [cdkDropListData]="category" (cdkDropListDropped)="dropTable($event)"
+                                [cdkDropListSortingDisabled]="this.masterFilterId == null" *ngIf="category?.length > 0">
+                                <ng-container matColumnDef="name_color">
+                                    <th mat-header-cell *matHeaderCellDef class="p-24 "></th>
+                                    <td mat-cell *matCellDef="let element;let i = index" class="p-0 py-point70em">
+                                        <div class="row ml-1 p-24 " style="pointer-events: all;">
+                                            <div class="template-color" [ngStyle]="{'background-color': element.color}">
+                                            </div>
+                                            <span class="ml-2">{{element?.category_name}}</span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="p-24 "></th>
+                                    <td mat-cell *matCellDef="let element;let i = index"
+                                        class="text-right p-0 py-point70em">
+                                        <div class="ml-5 p-24">
+                                            <div class="row justify-content-end" style="pointer-events: all;">
+                                                <mat-slide-toggle class="slide" checked={{element.is_Active}}
+                                                    (click)="onCategoryStatusChange(i)"></mat-slide-toggle>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                    (click)="openSideBar('category','edit',i)"
+                                                    *ngIf='masterFilterId == null'>
+                                                    <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                        aria-label="Example home icon">edit</mat-icon>
+
+                                                    <!-- <fa-icon [icon]="faPencilAlt" class="text-dark"></fa-icon> -->
+                                                </button>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                    *ngIf='masterFilterId != null'>
+                                                    <fa-icon [icon]="faArrowsAlt" class="text-dark"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let row; columns: display_col_category;let i = index"
+                                    class="p-0 border-bottom draggable-row" cdkDrag [cdkDragData]="row"
+                                    (click)="loadProductForSpecificCategory(i,$event)"
+                                    [ngClass]="this.selectedCategoryRow == i ? 'bg-gray' : 'bg-white'">
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-7 h-100" [ngClass]="Pagewidth <= 1024 ? 'mt-4' : 'mt-0'">
+                        <div *ngIf="isLoadingProduct == true"
+                            class="bg-white d-flex align-items-center justify-content-center z-index-2 alpha50 content position-absolute left-0 w100-30px h-100">
+                           <span class="mt-5"> Loading...</span>
+                        </div>
+                        <div class='bg-white table-w-350-scroll' style="min-height: 96px;">
+                            <div class="col-12 text-center title sticky-top">
+                                <div class="row justify-content-center">
+                                    <span class="col-12">PRODUCTS</span>
+                                    <div class="add-btn">
+                                        <button class="border-0 bg-transparent edit_btn_act"
+                                            (click)="openSideBar('product','add')">
+                                            <fa-icon [icon]="faPlusCircle" class="text-dark"></fa-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="products && products.length == 0 && isLoadingProduct == false"
+                                class="d-flex justify-content-center align-items-center"
+                                style="min-height: 96px; font-size: 16;">
+                                No Products Found
+                            </div>
+
+                            <table #products_table mat-table [dataSource]="products" class="syra-table w-100"
+                                cdkDropList [cdkDropListData]="products" (cdkDropListDropped)="dropProducts($event)"
+                                [cdkDropListSortingDisabled]="this.masterFilterId == null" *ngIf="products?.length > 0">
+                                <ng-container matColumnDef="name_color">
+                                    <th mat-header-cell *matHeaderCellDef class="p-24 "></th>
+                                    <td mat-cell *matCellDef="let element" class="product-cell p-24 py-point70em">
+                                        <div class="row ml-1">
+                                            <div class="template-color" [ngStyle]="{'background-color': element.color}">
+                                            </div>
+                                            <span class="ml-2">{{element.product_name}}</span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="p-24 "></th>
+                                    <td mat-cell *matCellDef="let element;let i = index"
+                                        class="text-right p-24 py-point70em">
+                                        <div class="ml-5">
+                                            <div class="row justify-content-end" style="pointer-events: all;">
+                                                <mat-slide-toggle class="slide" checked={{element.is_Active}}
+                                                    (change)="onProductStatusChange(i)">
+                                                </mat-slide-toggle>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                    (click)="openSideBar('product','edit',i)"
+                                                    *ngIf='masterFilterId == null'>
+                                                    <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                                        aria-label="Example home icon">edit</mat-icon>
+
+                                                    <!-- <fa-icon [icon]="faPencilAlt" class="text-dark"></fa-icon> -->
+                                                </button>
+                                                <button class="border-0 bg-transparent edit_btn_act pr-1"
+                                                    *ngIf='masterFilterId != null'>
+                                                    <fa-icon [icon]="faArrowsAlt" class="text-dark"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-row *matRowDef="let prod_row; columns: display_col_category"
+                                    class="p-0 border-bottom" cdkDrag [cdkDragData]="prod_row"></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

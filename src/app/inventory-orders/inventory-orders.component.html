@@ -1,0 +1,134 @@
+<div class="container wrapper">
+    <mat-sidenav-container class="bg-transparent">
+        <mat-sidenav #sidenav [mode]="'over'" [position]='"end"'  [ngClass]="show_product_popup==true ? 'w-500' : innerWidth<=576 ? 'w-100' : 'w-385'"
+            style="background-color : #f0f0f0" (opened)="push()" (closed)="closed()">            
+            <div class="d-lg-flex column-reverse">
+                <app-inventory-order-form [sidenav]="sidenav" [field]="field" [status]="status" [ngClass]="show_product_popup==true ? 'inventory_width' : 'w-385'"  *ngIf = "!createOrder"></app-inventory-order-form>        
+                <app-add-inventory-order [sidenav]="sidenav" [ngClass]="show_product_popup==true ? 'inventory_width' : 'w-385'" *ngIf = "createOrder"></app-add-inventory-order>        
+                <app-addproduct-component [sidenav]="sidenav" [orderDetails] = "orderInfoByPopUp" [orderedProductsFromAddInventory] = "orderedProductsFromAddInventory" *ngIf="show_product_popup" [ngClass]="show_product_popup==true ? 'addproduct_width' : ''"></app-addproduct-component>
+            </div>            
+        </mat-sidenav>        
+        <mat-sidenav-content class="mb-5">
+            <div #table class="mx-4 table-w-350-scroll">
+                <div #loader
+                    class="bg-white top-60px justify-content-center align-items-center z-index-1 alpha50 content position-absolute left-0 w100-48px h76-56"
+                    [ngClass]="isLoading ? 'd-flex' : 'd-none'">
+                    Loading...
+                </div>
+                <table mat-table [dataSource]="inventory_orders" class="syra-table w-100">
+                    <ng-container matColumnDef="date_time">
+                        <th mat-header-cell *matHeaderCellDef class="p-24">DATE & TIME</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="p-24">
+                            {{element.created_date}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="order_source">
+                        <th mat-header-cell *matHeaderCellDef>ORDER SOURCE</th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            {{element.branch_info.branch_name}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ordered_by">
+                        <th mat-header-cell *matHeaderCellDef class="p-24">ORDERED BY</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="p-24"
+                            style="text-transform: capitalize;">
+                            {{element.ordered_by_details ? element.ordered_by_details.barista_name : "ADMIN"}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="recieved_by">
+                        <th mat-header-cell *matHeaderCellDef>RECIEVED BY</th>
+                        <td mat-cell *matCellDef="let element; let i = index"
+                            [ngClass]="element.recieved_by_details ? '' : 'text-center'"
+                            style="text-transform: capitalize;">
+                            {{element.recieved_by_details ? element.recieved_by_details.barista_name : '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="date_delivered">
+                        <th mat-header-cell *matHeaderCellDef>DATE DELIVERED</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="p-24"
+                            [ngClass]="element.delivery_date ? '' : 'text-center'">
+                            {{element.delivered_date ? element.delivered_date : '-'}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="product_ordered">
+                        <th mat-header-cell *matHeaderCellDef style="width: 25px;">PRODUCTS ORDERED</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                            {{element.number_of_products}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef class="p-24 pr-0">STATUS</th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="p-24">
+                            <div *ngIf='element.status == "pending"'
+                                class="px-2 bg-pending rounded-10px text-truncate d-flex justify-content-center">
+                                <span>{{element.status}}</span>
+                            </div>
+                            <div *ngIf='element.status == "approved"'
+                                class="px-2 bg-approved rounded-10px d-flex justify-content-center  text-truncate">
+                                <span>{{element.status}}</span>
+                            </div>
+                            <div *ngIf='element.status == "declined" || element.status == "declained"'
+                                class="px-2 bg-declained rounded-10px d-flex justify-content-center text-truncate">
+                                <span>{{element.status == "declained" ? "declined" : element.status}}</span>
+                            </div>
+                            <div *ngIf='element.status == "delivered"'
+                                class="px-2  bg-delivered rounded-10px d-flex justify-content-center text-truncate">
+                                <span>{{element.status}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="addOrder()">
+                                <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                    aria-label="Example home icon">add_circle</mat-icon>
+                            </button>
+                        </th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                            <button class="border-0 bg-transparent edit_btn_act pr-1" (click)="openSideBar('order',i)">
+                                <mat-icon aria-hidden="false" class="text-dark font-size-20"
+                                    aria-label="Example home icon">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="check">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                        <mat-checkbox class="w-100 h-17px my-checkbox_select"  (change)="handleSelection($event.checked,i)">
+                        </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="display_coloums; sticky: true">
+                    <tr mat-row *matRowDef="let row; columns: display_coloums" class="p-0"></tr>
+                </table>
+                <div class="no-items-table bg-white h76-60px" *ngIf="inventory_orders.length == 0 && isLoading != true">
+                    No Inventory Orders Found
+                </div>
+                <nav aria-label="Page navigation example" class="mt-2 mr-auto d-none"
+                    *ngIf="inventory_orders.length > 15 && isLoading != true">
+                    <ul *ngIf="pages" class="pagination justify-content-end f-wrap m-0">
+                        <li class="page-item" [ngClass]="{disabled:current === 1}">
+                            <a class="page-link" mdbWavesEffect (click)="getIntventoryOrders(1)"><i
+                                    class="material-icons">first_page</i></a>
+                        </li>
+                        <li class="page-item" [ngClass]="{disabled:current === 1}">
+                            <a class="page-link" mdbWavesEffect (click)="getIntventoryOrders(current - 1)"><i
+                                    class="material-icons">navigate_before</i></a>
+                        </li>
+                        <li class="page-item mt-1" *ngFor="let page of pages" [ngClass]="{active:current === page}">
+                            <a class="page-link" mdbWavesEffect (click)="getIntventoryOrders(page)">{{page}}</a>
+                        </li>
+                        <li class="page-item" [ngClass]="{disabled:current === totalPages}">
+                            <a class="page-link" mdbWavesEffect (click)="getIntventoryOrders(current + 1)"><i
+                                    class="material-icons">navigate_next</i></a>
+                        </li>
+                        <li class="page-item" [ngClass]="{disabled:current === totalPages}">
+                            <a class="page-link" mdbWavesEffect (click)="getIntventoryOrders(totalPages)"><i
+                                    class="material-icons">last_page</i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

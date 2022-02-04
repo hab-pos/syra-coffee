@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="bg_color w-100">
+  <div class="title text-center sticky-top">
+    <button (click)="toggle()" class='bg-transparent border-0 form-close-btn position-absolute'>
+      <fa-icon [icon]='close'></fa-icon>
+    </button>
+    {{ field == 'expense'? 'ADD EXPENSES' : (field == 'iva') ? 'ADD IVA' : (field == 'discount') ? 'ADD DISCOUNT' :
+    'EDIT DISCOUNT' }}
+  </div>
+
+  <form *ngIf="field == 'expense'" class="mx-2" [formGroup]="expenseForm">
+
+    <div class="h75vh">
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-0 mt-5 p-0 ">
+            <label>Expense</label>
+          </div>
+          <input type="text" class="form-control w-100" id="expense" placeholder="Enter name" autocomplete="off"  formControlName="expense">
+        </div>
+      </div>
+    </div>
+
+    <div class="h25vh">
+      <div class="col-12 py-3 d-flex justify-content-center">
+        <button (click)="saveExpense()" type = "button" class="btn text-white btn-sm"><i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>SAVE</button>
+      </div>
+    </div>
+
+  </form>
+
+  <form *ngIf="field == 'iva'" class=" mx-2 " [formGroup]="ivaForm">
+    <div class="h75vh">
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-0 mt-5 p-0 ">
+            <label>Amount</label>
+          </div>
+          <div class="col-12 px-0 w-100">
+            <input type="text" class="form-control w-100" id="amount" placeholder="0.00" autocomplete="off"  formControlName="iva">
+            <fa-icon [icon]='faPercent' class="position-absolute right-20 top-10 text-dark"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="h25vh">
+      <div class="col-12 py-3 d-flex justify-content-center">
+        <button (click)="saveIVA()" type = "button" class="btn text-white btn-sm "><i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>SAVE</button>
+      </div>
+    </div>
+  </form>
+
+
+  <form *ngIf="field == 'discount'" class=" mx-2" [formGroup]="discountForm">
+    <div class="h75vh">
+
+      <div class="form-group mx-4">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-0 mt-5 p-0 ">
+            <label>Name</label>
+          </div>
+          <input type="text" class="form-control w-100" id="username" placeholder="Enter name" autocomplete="off"  formControlName="name">
+        </div>
+      </div>
+
+      <div class="form-group mx-4 ">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-0 mt-2 p-0 ">
+            <label>Amount</label>
+          </div>
+          <div class="col-12 px-0 w-100">
+            <input type="text" class="form-control w-100" id="amount" placeholder="0.00" autocomplete="off"  formControlName="amount">
+            <fa-icon [icon]='percentCheck.checked ? faPercent : faEuroSign' class="position-absolute right-20 top-10 text-dark"></fa-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mx-3 ">
+        <div class="input-group ">
+          <div class="text-left col-12 mx-2 mt-2 p-0 ">
+            <label>Currency</label>
+          </div>
+          <div class="line mx-2 mt-2 "></div>
+        </div>
+      </div>
+      <div class="form-group mx-3 ">
+        <ul class="p-0 mx-2">
+          <li>
+            <mat-checkbox class="percent_check" #percentCheck (change) = "checked('0')"></mat-checkbox><label class="ml-2 ">%</label>
+          </li>
+          <li>
+            <mat-checkbox class="percent_check" #EuroCheck (change) = "checked('1')"></mat-checkbox><label class="ml-2">€</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="h25vh">
+      <div class="col-12 py-3 d-flex justify-content-center">
+        <button (click)="saveDiscount()" type = "button" class="btn text-white btn-sm ">
+          <i *ngIf = "isLoading == true" class="fa fa-spinner fa-spin mr-3"></i>
+          SAVE
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,76 @@
+@import "../../public/Colors/colors";
+@import "../../public/Fonts/fonts";
+
+.wrapper {
+    margin-top: 130px;
+    font-family: $CerebriSans_bold;
+}
+
+.table-w-350-scroll {
+    height: 76vh;
+    overflow: auto;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+.h-70{
+    height: calc(76vh - 60px);
+    flex: 1;
+}
+.h-70-load{
+    height: 76vh;
+    flex: 1;
+}
+
+.hand-pointer{
+    cursor: pointer;
+}
+.mat-row:nth-child(4n + 1),
+.mat-row:nth-child(4n + 2) {
+    background-color: #F9F9F9 !important;
+}
+
+.mat-row:nth-child(4n + 3),
+.mat-row:nth-child(4n + 4) {
+    background-color: #ffffff !important;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.pl-24 {
+    padding-left: 30px;
+}
+
+// .fa-icon-down {
+//     transform: rotate(0deg) linear;
+//     transition: transform 3s;
+// }
+
+// .fa-icon-down.open {
+//     transform: rotate(-180deg) linear;
+//     transition: transform 3s;
+// }

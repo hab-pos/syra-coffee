@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="h-80" *ngIf = 'isLoading'  class="bg-white d-flex align-items-center justify-content-center alpha50 content position-absolute left-0 top-0 w-100 h100vh">
+    Loading...
+</div>
+<div class="w-100" *ngIf = '!isLoading'>
+    <div *ngIf="field == 'category' " class="title text-center sticky-top">
+        <button (click)="sidenav.toggle()" class='bg-transparent border-0 form-close-btn position-absolute'>
+            <fa-icon [icon]='close'></fa-icon>
+        </button>
+        <div>
+            {{ action == 'add' && field == 'category' ? 'ADD CATEGORY' :'EDIT CATEGORY' }}
+        </div>
+    </div>
+
+    <div class="h75vh">
+        <form *ngIf="field == 'category'" class="mb-5"  [formGroup]="categoryForm">
+            <div class="form-group mx-4 ">
+                    <div class="text-left col-12 mx-0 mt-4 p-0 ">
+                        <label>Name</label>
+                    </div>
+                    <input type="text" #category formControlName="category" class="form-control w-100" id="username" placeholder="Enter name" autocomplete="off" value = "{{parentParams.get('toAddCategory') ? parentParams.get('category') : ''}}">
+            </div>
+            <div class="form-group mx-3 ">
+                    <div class="text-left col-12 mx-2 mt-2 p-0 ">
+                        <label>Color</label>
+                    </div>
+                    <div class="line mx-2 mt-2 "></div>
+            </div>
+    
+            <div class="row ml-4 mx-1 p-0">
+                <div class="col-2 mx-0 p-0" *ngFor="let color of colors, index as i">
+                    <button class="circle" [ngStyle]="{'background-color': color.color}" type="button" (click) = "ChangeColor(i)" [ngClass] = "i == selectedColorIndex ? 'outline' : ''">
+                    </button>
+                </div>
+            </div>
+    
+            <div class="form-group mx-3 ">
+                    <div class="text-left col-12 mx-2 mt-4 p-0 ">
+                        <label>Branch</label>
+                    </div>
+                    <div class="line mx-2 mt-2 "></div>
+            </div>
+    
+            <div class="form-row ml-4 p-0">
+                <div class="col-6 mx-0 p-0 " *ngFor="let branch of branches, index as i">
+                    <mat-checkbox [checked]=branch.is_active (change)=updateAllComplete(i,$event.checked)
+                        class="check w-100" disableRipple [matTooltip]="branch.branch_name"
+                        matTooltipClass="tooltip-list">
+                        {{branch.branch_name}}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="h25vh">
+        <div class="row mx-0 justify-content-center align-items-center">
+            <div class="col-12 py-3 d-flex justify-content-center">
+                <button type = "submit"  (click)="action == 'edit' ? editAction() : saveAction()" class="btn text-white btn-sm">
+                    <i *ngIf = "isLoadingSave == true" class="fa fa-spinner fa-spin mr-3"></i>
+
+                    <span>SAVE</span>
+                </button>
+            </div>
+            <div class="col-12 pb-3 d-flex justify-content-center">
+                <button *ngIf="action == 'edit' && field == 'category'" type = "button" (click)="deleteAction()" class="btn-danger">
+                    <i *ngIf = "isLoadingDelete == true" class="fa fa-spinner fa-spin mr-3"></i>
+
+                    <span>DELETE ITEM</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+@import "../../public/Colors/colors";
+@import "../../public/Fonts/fonts";
+
+.wrapper {
+    margin-top: 130px;
+    font-family: $CerebriSans_bold;
+}
+
+.table-w-350-scroll {
+    max-height: 270px;
+    overflow: auto;
+}
+
+.total-discount{
+    font-size: 38px;
+}
+
+tr.mat-header-row {
+    height: 48px;
+}
+th.mat-header-cell {
+    text-align: center;
+}
+
+::ng-deep .couponTabel-formatter{
+    tr:nth-child(2n){
+        background: white;
+    }
+    border-collapse: separate;
+}
+::ng-deep .couponTabel-formatter > tbody > tr{
+    height: 45px !important;
+}
+::ng-deep .couponTabel > tfoot > tr > td{
+   height: 100%;
+}
+.price_label{
+    font-family: $CerebriSans_bold;
+}
+.h100-60px{
+    height: calc(100% - 60px);
+}
+
+::ng-deep .couponTabel > tfoot > tr {
+    position: absolute !important;
+    bottom: 0px;
+    height: 45px !important;
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    td{
+        padding-top: 7px;
+        width: 50%;
+    }
+}
+::ng-deep tfoot{
+    z-index : 1 !important
+}
+
+::ng-deep .couponTabel > thead > tr {
+    td{
+        width: 50%;
+    }
+}
+::ng-deep .couponTabel > tbody > tr {
+    td{
+        width: 50%;
+    }
+}

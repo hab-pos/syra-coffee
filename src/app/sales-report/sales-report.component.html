@@ -1,0 +1,467 @@
+<div class="container wrapper pb-30">
+    <div class="row mx-4 pb-3">
+        <div class="col-md-12 col-lg-8 pl-0" [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+            <mat-tab-group #tabGroup disableRipple mat-stretch-tabs mat-align-tabs="center"
+                (selectedTabChange)="tabChanged($event)">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div>
+                            GLOBAL
+                        </div>
+                    </ng-template>
+                    <div class="arrow_box l-25"></div>
+                    <div class="h-75vh mt-4" style="font-family: 'CerebriSans-Regular'">
+                        <div *ngIf="salesStats == null || salesStats?.sales_sorted.length == 0 && is_loading_billing == false"
+                            class=" no-items-table w-100 h-50 d-flex justify-content-center align-items-center">
+                            No Transactions
+                        </div>
+                        <div *ngIf="is_loading_billing == true"
+                            class=" no-items-table w-100 h-50 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                        <ejs-chart #todayBilling [primaryXAxis]='primaryXAxis' [tooltip]="tooltipGlobal"
+                            [primaryYAxis]='primaryYAxis' id="chart-billing-today" class="h-50" [chartArea]='chartArea'
+                            [zoomSettings]='zoomSettings' (load)='load($event)'
+                            *ngIf="salesStats != null && salesStats?.sales_sorted.length > 0 && is_loading_billing == false">
+                            <e-series-collection>
+                                <e-series [dataSource]='salesStats.sales_sorted' type='Column' xName='hour'
+                                    yName='amount' fill="#f7b472" border-color='transparent' columnWidth='0.45'
+                                    [cornerRadius]='radius'> </e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+
+                        <div *ngIf="salesStats == null || salesStats.previous_sales_sorted.length == 0 && is_loading_billing == false"
+                            class="no-items-table w-100 h-50 d-flex justify-content-center align-items-center">
+                            No Transactions
+                        </div>
+                        <div *ngIf="is_loading_billing == true"
+                            class=" no-items-table w-100 h-50 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                        <ejs-chart #yesterdayBilling [primaryXAxis]='yesterday_XAxis' [tooltip]="tooltipGlobal"
+                            [primaryYAxis]='yesterday_yAxis' id="chart-billing-yesterday" class="h-50"
+                            [chartArea]='chartArea' [zoomSettings]='zoomSettings' (load)='load($event)'
+                            *ngIf="salesStats != null && salesStats.previous_sales_sorted.length > 0 && is_loading_billing == false">
+                            <e-series-collection>
+                                <e-series [dataSource]='salesStats?.previous_sales_sorted' type='Column' xName='hour'
+                                    yName='amount' fill="#f7b472" border-color='transparent' opacity='0.6'
+                                    columnWidth='0.45' [cornerRadius]='radius'> </e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+                    </div>
+
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div>
+                            CATEGORY
+                        </div>
+                    </ng-template>
+                    <div class="arrow_box l-50"></div>
+                    <div *ngIf="graphData_category == null || graphData_category.length == 0 && is_loading_category == false"
+                        class=" no-items-table w-100 h-365px d-flex justify-content-center align-items-center">
+                        No Transactions
+                    </div>
+                    <div *ngIf="is_loading_category == true"
+                        class=" no-items-table w-100 h-365px d-flex justify-content-center align-items-center">
+                        Loading...
+                    </div>
+                    <ejs-chart #chart_category [primaryXAxis]='primaryXAxisCategory' [primaryYAxis]='primaryYAxis'
+                        id="chart-category" width='100%' height='99.5%' [chartArea]='chartArea' class="mt-4"
+                        [tooltip]="tooltipGlobal" [zoomSettings]='zoomSettings'
+                        *ngIf="graphData_category != null && graphData_category.length > 0 && is_loading_category == false"
+                        (load)='load($event)'>
+                        <e-series-collection>
+                            <e-series *ngFor="let data of graphData_category,index as i" [dataSource]='data' type='Area'
+                                xName='hour' yName='amount' fill='url(#gradient-chart-{{i}})' [border]='{
+                                    width : "2",
+                                    color : ""+pallets[i]+""
+                                }'>
+                            </e-series>
+                        </e-series-collection>
+                    </ejs-chart>
+
+                    <svg style="height: 0">
+                        <defs>
+                            <linearGradient *ngFor="let data of graphData_category,index as i" id="gradient-chart-{{i}}"
+                                x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0" [ngStyle]="{'stop-color': pallets[i]}" style="stop-opacity: 0.8;" />
+                                <stop offset="1" [ngStyle]="{'stop-color': pallets[i]}" style="stop-opacity: 0;" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <div>
+                            PRODUCTO
+                        </div>
+                    </ng-template>
+                    <div class="arrow_box l-75"></div>
+                    <div *ngIf="graphData_product == null || graphData_product.length == 0 && is_loading_product == false"
+                        class=" no-items-table w-100 h-365px d-flex justify-content-center align-items-center">
+                        No Transactions
+                    </div>
+                    <div *ngIf="is_loading_product == true"
+                        class=" no-items-table w-100 h-365px d-flex justify-content-center align-items-center">
+                        Loading...
+                    </div>
+                    <ejs-chart #chart_product [primaryXAxis]='primaryXAxisCategory' [primaryYAxis]='primaryYAxis'
+                        id="chart-product" width='100%' height='100%' [chartArea]='chartArea'
+                        *ngIf="graphData_product != null &&  graphData_product.length > 0 && is_loading_product == false"
+                        [tooltip]="tooltipGlobal" [zoomSettings]='zoomSettings' class="mt-4" (load)='load($event)'>
+                        <e-series-collection>
+                            <e-series *ngFor="let data of graphData_product,index as i" [dataSource]='data' type='Area'
+                                xName='hour' yName='amount' fill='url(#gradient-chart-{{i}})' [border]='{
+                                    width : "2",
+                                    color : ""+palletsPdt[i]+""
+                                }'>
+                            </e-series>
+                        </e-series-collection>
+                    </ejs-chart>
+
+                    <svg style="height: 0">
+                        <defs>
+                            <linearGradient *ngFor="let data of graphData_product,index as i" id="gradient-chart-{{i}}"
+                                x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0" [ngStyle]="{'stop-color': palletsPdt[i]}" style="stop-opacity: 0.8;" />
+                                <stop offset="1" [ngStyle]="{'stop-color': palletsPdt[i]}" style="stop-opacity: 0;" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="col-md-12 col-lg-4 px-0" [ngClass]="[Pagewidth <= 991 ? 'pt-30, mx-100vh, mt-3' : '']">
+            <div class="row mx-0">
+                <div class="col-12" *ngIf='selectedIndex == 0' [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        YOUR BILLING
+                    </div>
+
+                    <div class="col-12 pb-30 bg-white shadow-sm">
+                        <div class="col-12 text-center py-30"
+                            [ngClass]="this.salesStats?.sum_this_month > this.salesStats?.sum_last_month ? 'total-billing-profit' : 'total-billing '">
+                            {{(this.salesStats?.sum_last_month + this.salesStats?.sum_this_month) != 0 ?
+                            getNumber(((this.salesStats.sum_this_month - this.salesStats.sum_last_month) /
+                            (this.salesStats.sum_last_month + this.salesStats.sum_this_month) * 100)) : 0}}%
+                        </div>
+                        <div class="col-12 text-center pt-1" style="color: #4e4e4e;">
+                            Menor en comparación Coon el periodo anterior
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" *ngIf='selectedIndex == 1' [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        ALL CATEGORIES
+                    </div>
+
+                    <div class="col-12 bg-white shadow-sm py-3 px-0" *ngIf="is_loading_category_list == false">
+                        <div class="row m-0">
+                            <div class="col-4 pr-0">
+                                <mat-checkbox [matTooltip]="'All categories'" matTooltipClass="tooltip-list"
+                                    [checked]=allComplete [indeterminate]="someComplete()"
+                                    (change)="setAll($event.checked)" style="font-family: 'CerebriSans-Bold';"
+                                    class="w-100 categories_list">
+                                    All categories
+                                </mat-checkbox>
+                            </div>
+                            <div class='col-4 pr-0' *ngFor="let category of categories, index as i">
+                                <mat-checkbox [checked]=category.is_active [matTooltip]="category.category_name"
+                                    matTooltipClass="tooltip-list" (change)=updateAllComplete(i,$event.checked)
+                                    style="font-family: 'CerebriSans-Regular';" class="w-100 categories_list">
+                                    {{category.category_name}}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="is_loading_category_list == true"
+                        class=" no-items-table w-100 h-100 d-flex justify-content-center align-items-center">
+                        Loading...
+                    </div>
+
+
+                </div>
+                <div class="col-12"
+                    *ngIf='selectedIndex == 1 && getCheckBoxStatus() == false && best_category.length > 0'
+                    [ngClass]="{'mt-0' : selectedIndex == 2 , 'mt-3' : selectedIndex != 2, 'px-0' : Pagewidth <= 991}">
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{"BEST CATEGORIES"}}
+                    </div>
+
+                    <div class="col-12 py-4 px-0 bg-white shadow-sm">
+                        <div *ngIf="is_loading_category == false">
+
+                            <div class="row m-0" *ngFor='let element of best_category, index as i'
+                                [ngStyle]="{'color': element.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+                                <div class="col-8" [matTooltip]="element?.category_info?.category_name"
+                                    matTooltipClass="tooltip-list"
+                                    *ngIf="element?.category_info != null || element?.category_info != undefined">
+                                    <div class="d-flex h-100">
+                                        <div class='h-100 d-flex align-items-center'>
+                                            <div class="circle" [ngStyle]="{'background-color': element.color}"></div>
+                                        </div>
+                                        <span
+                                            class='col-10 text-truncate'>{{element.category_info.category_name}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4" [matTooltip]="element?.price_with_iva?.toFixed(2)"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="text-truncate text-right">{{element?.price_with_iva?.toFixed(2)}}€</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="is_loading_category == true"
+                            class=" no-items-table w-100 h-100 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-3"
+                    *ngIf='selectedIndex == 1 && getCheckBoxStatus() == false && worstCategories != null && worstCategories.length > 0'
+                    [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{"WORST CATEGORIES"}}
+                    </div>
+                    <div class="col-12 py-3 px-0 bg-white shadow-sm">
+                        <div *ngIf="is_loading_category == false">
+                            <div class="row m-0" *ngFor='let element of worstCategories, index as i'
+                                [ngStyle]="{'color': element.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+                                <div class="col-8" [matTooltip]="element.category_info.category_name"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="d-flex h-100">
+                                        <div class='h-100 d-flex align-items-center'>
+                                            <div class="circle" [ngStyle]="{'background-color': element.color}"></div>
+                                        </div>
+                                        <span
+                                            class='col-10 text-truncate'>{{element.category_info.category_name}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4" [matTooltip]="element?.price_with_iva?.toFixed(2)"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="text-truncate text-right">{{element.price_with_iva?.toFixed(2)}}€</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="is_loading_category == true"
+                            class=" no-items-table w-100 h-100 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 py-3" *ngIf='selectedIndex != 0 && getCheckBoxStatus() == true'
+                    [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{selectedIndex == 1 ? 'COMPARISION' : 'CATEGORIES'}}
+                    </div>
+
+                    <div *ngIf="dataSourceCategory.data.length == 0"
+                        class="no-items-table w-100 h-100 d-flex justify-content-center align-items-center bg-white">
+                        No Report Found
+                    </div>
+
+                    <div class="col-12 p-3 bg-white shadow-sm" *ngIf="dataSourceCategory.data.length > 0">
+                        <div class="row" *ngFor='let element of dataSourceCategory.data, index as i'
+                            [ngStyle]="{'color': element.category_info.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+                            <div class="col-8" [matTooltip]="element.name" matTooltipClass="tooltip-list">
+                                <div class="d-flex h-100">
+                                    <div class='h-100 d-flex align-items-center'>
+                                        <div class="circle"
+                                            [ngStyle]="{'background-color': element.category_info.color}"></div>
+                                    </div>
+                                    <span class='col-10 text-truncate'>{{element.name}}</span>
+                                </div>
+                            </div>
+                            <div class="col-4" [matTooltip]="element.price_without_iva.toFixed(2)"
+                                matTooltipClass="tooltip-list">
+                                <div class="text-truncate text-right">{{element.price_with_iva.toFixed(2)}}€</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12"
+                    *ngIf='selectedIndex == 2 && searchProductsKeys.length == 0 && best_products?.length > 0'
+                    [ngClass]="{'mt-0' : selectedIndex == 2 , 'mt-3' : selectedIndex != 2, 'px-0' : Pagewidth <= 991}">
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{"BEST PRODUCTS"}}
+                    </div>
+
+                    <div class="col-12 py-4 px-0 bg-white shadow-sm">
+                        <div *ngIf="is_loading_product == false">
+                            <div class="row m-0" *ngFor='let element of best_products, index as i'
+                                [ngStyle]="{'color': element.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+
+                                <div class="col-8" [matTooltip]="element.product_info.product_name"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="d-flex h-100">
+                                        <div class='h-100 d-flex align-items-center'>
+                                            <div class="circle" [ngStyle]="{'background-color': element.color}"></div>
+                                        </div>
+                                        <span class='col-10 text-truncate'>{{element.product_info.product_name}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4" [matTooltip]="element?.price_with_iva?.toFixed(2)"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="text-truncate text-right">{{element.price_with_iva?.toFixed(2)}}€</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="is_loading_product == true"
+                            class=" no-items-table w-100 h-100 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 pt-3"
+                    *ngIf='selectedIndex == 2 && searchProductsKeys.length == 0 && worst_products.length > 0'
+                    [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{"WORST PRODUCTS"}}
+                    </div>
+                    <div class="col-12 py-3 px-0 bg-white shadow-sm">
+                        <div *ngIf="is_loading_product == false">
+                            <div class="row m-0" *ngFor='let element of worst_products, index as i'
+                                [ngStyle]="{'color': element.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+                                <div class="col-8" [matTooltip]="element.product_info.product_name"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="d-flex h-100">
+                                        <div class='h-100 d-flex align-items-center'>
+                                            <div class="circle" [ngStyle]="{'background-color': element.color}"></div>
+                                        </div>
+                                        <span class='col-10 text-truncate'>{{element.product_info.product_name}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-4" [matTooltip]="element?.price_with_iva?.toFixed(2)"
+                                    matTooltipClass="tooltip-list">
+                                    <div class="text-truncate text-right">{{element.price_with_iva?.toFixed(2)}}€</div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div *ngIf="is_loading_product == true"
+                            class=" no-items-table w-100 h-100 d-flex justify-content-center align-items-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 py-3" *ngIf='selectedIndex == 2 && searchProductsKeys.length > 0'
+                    [ngClass]='Pagewidth <= 991 ? "px-0" : ""'>
+                    <div class="col-12 text-center title z-index-1" style="font-size: 14px;">
+                        {{'COMPARISION'}}
+                    </div>
+
+                    <div *ngIf="dataSourceCategory.data.length == 0"
+                        class="no-items-table w-100 h-100 d-flex justify-content-center align-items-center bg-white">
+                        No Report Found
+                    </div>
+
+                    <div class="col-12 p-3 bg-white shadow-sm" *ngIf="dataSourceProduct.data.length > 0">
+                        <div class="row" *ngFor='let element of dataSourceProduct.data, index as i'
+                            [ngStyle]="{'color': element.product_info.color}" [ngClass]='i == 0 ? "pt-0" : "pt-3"'>
+                            <div class="col-8" [matTooltip]="element.name" matTooltipClass="tooltip-list">
+                                <div class="d-flex h-100">
+                                    <div class='h-100 d-flex align-items-center'>
+                                        <div class="circle"
+                                            [ngStyle]="{'background-color': element.product_info.color}"></div>
+                                    </div>
+                                    <span class='col-10 text-truncate'>{{element.name}}</span>
+                                </div>
+                            </div>
+                            <div class="col-4" [matTooltip]="element.price_without_iva.toFixed(2)"
+                                matTooltipClass="tooltip-list">
+                                <div class="text-truncate text-right">{{element.price_with_iva.toFixed(2)}}€</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row mx-4 bg-white" [ngClass]="selectedIndex == 0 ? 'd-none' : ''">
+        <div class="col-12 pb-3 bg-background">
+            <!-- done by ganesh -->
+            <div *ngIf='selectedIndex == 2' class="row px-0 align-items-center">
+                <div class="col-3 px-0">
+                    <div class="d-flex align-items-center justify-content-start curve-left  curve-right shadow-sm">
+                        <fa-icon [icon]="faSearch" class="curve-left bg-white h-35 pt-2 pl-3"></fa-icon>
+                        <input type="text" [formControl]="inputField" class="border-0 h-35 w-100 curve-right search-bar"
+                            placeholder="" [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="add($event)">
+                    </div>
+
+                </div>
+
+                <div class="col-9">
+                    <mat-chip-list #chipList aria-label="Search Products">
+                        <mat-chip *ngFor="let key of searchProductsKeys" [selectable]="selectable"
+                            [removable]="removable" (removed)="remove(key)" disableRipple
+                            class="py-0 m-1 mat-chip-design bg-dark text-white">
+                            {{key.name}}
+                            <mat-icon matChipRemove *ngIf="removable" class="text-white">cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 title p-3">
+            <div class="col-4">Total Sales</div>
+        </div>
+        <div class='col-12 p-0'>
+            <table mat-table [dataSource]="selectedIndex == 1 ? dataSourceCategory : dataSourceProduct"
+                class="w-100 syra-table" matSort
+                *ngIf="selectedIndex == 1 ? (dataSourceCategory?.data?.length > 0 && is_loading_category == false) : (dataSourceProduct?.data?.length > 0 && is_loading_product == false)">
+                <ng-container matColumnDef="{{column}}" *ngFor="let column of display_coloumns,index as i">
+                    <th mat-header-cell *matHeaderCellDef class="z-index-1 table-header"
+                        [ngClass]='[i == 0 ? "text-left" : "text-center"]' mat-sort-header>
+                        {{display_headers[i]}}
+                        <fa-icon [icon]='faSort' class="ml-2"></fa-icon>
+                    </th>
+                    <td mat-cell *matCellDef="let element" [ngClass]='i == 0 ? "text-left" : "text-center"'>
+                        <span>
+                            {{(column == 'price_without_iva' || column == 'price_with_iva') ? element[column].toFixed(2)
+                            : element[column] }} {{(column == 'price_without_iva' || column == 'price_with_iva') ? '€' :
+                            ''}}
+                        </span>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef [ngClass]='i == 0 ? "text-left" : "text-center"'>
+                        <span> {{getFooter(column)}} </span>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="display_coloumns;" class="border-left border-right"></tr>
+                <tr mat-row *matRowDef="let row; columns: display_coloumns"></tr>
+                <tr mat-footer-row *matFooterRowDef="display_coloumns;" class="border"></tr>
+            </table>
+
+            <div *ngIf="selectedIndex == 1 ? (dataSourceCategory?.data?.length == 0 && is_loading_category == false) : (dataSourceProduct?.data?.length == 0 && is_loading_product == false)"
+                class=" no-items-table w-100 h-50 d-flex justify-content-center align-items-center"
+                style="min-height: 200px;">
+                No Transactions
+            </div>
+
+            <div *ngIf="selectedIndex == 1 ? is_loading_category == true : is_loading_product == true"
+                class=" no-items-table w-100 h-50 d-flex justify-content-center align-items-center"
+                style="min-height: 200px;">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>

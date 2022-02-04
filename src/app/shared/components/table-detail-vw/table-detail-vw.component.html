@@ -1,0 +1,117 @@
+<div>
+    <div class="modal-header">
+        <span class="modal-title">Detailed report</span>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-0">
+        <div class="col-12 m-auto px-0">
+            <div class="purchaseCharge-table-wrapper">
+                <div class="table-responsive">
+                    <table class="table table-striped bg-white text-center" style="font-size:calc(15px + 1.5%);">
+                        <thead>
+                            <tr>
+                                <th scope="col"  class="border-right">Category</th>
+                                <th scope="col" class="border-right">Average Tax</th>
+                                <th scope="col" class="border-right">Average Expense</th>
+                                <th scope="col" class="border-right">Average Total (with tax)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white">
+                                <td class="text-center border-right">
+                                    <span class="m-auto"> {{category}} </span>
+                                </td>
+                                <td class="p-0 border-right">
+                                    <table class="m-auto w-100">
+                                        <thead>
+                                            <tr class="bg-light">
+                                                <th scope="col" class="py-0">Month</th>
+                                                <th scope="col" class="py-0">01-14</th>
+                                                <th scope="col" class="py-0">15-31</th>
+                                                <th scope="col" class="py-0">01-31</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let month of quarter; index as i">
+                                            <tr class="bg-white">
+                                                <th class="text-center border-0  m-auto h-100">
+                                                    {{month.value}}
+                                                </th>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,1,'gst')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,2,'gst')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{subract(getHalfAvg(month.key,2,'gst'),getHalfAvg(month.key,1,'gst')).toFixed(2)}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="p-0 border-right">
+                                    <table class="m-auto w-100">
+                                        <thead>
+                                            <tr class="bg-light">
+                                                <th scope="col" class="py-0">Month</th>
+                                                <th scope="col" class="py-0">01-14</th>
+                                                <th scope="col" class="py-0">15-31</th>
+                                                <th scope="col" class="py-0">01-31</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let month of quarter; index as i">
+                                            <tr class="bg-white">
+                                                <th class="text-center border-0  m-auto h-100">
+                                                    {{month.value}}
+                                                </th>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,1,'expense')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,2,'expense')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{subract(getHalfAvg(month.key,2,'expense'),getHalfAvg(month.key,1,'expense')).toFixed(2)}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="p-0 border-right">
+                                    <table class="m-auto w-100">
+                                        <thead>
+                                            <tr class="bg-light">
+                                                <th scope="col" class="py-0">Month</th>
+                                                <th scope="col" class="py-0">01-14</th>
+                                                <th scope="col" class="py-0">15-31</th>
+                                                <th scope="col" class="py-0">01-31</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let month of quarter; index as i">
+                                            <tr class="bg-white">
+                                                <th class="text-center border-0  m-auto h-100">
+                                                    {{month.value}}
+                                                </th>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,1,'total')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{getHalfAvg(month.key,2,'total')}}
+                                                </td>
+                                                <td class="text-center border-0  m-auto h-100">
+                                                    ₹ {{subract(getHalfAvg(month.key,2,'total'),getHalfAvg(month.key,1,'total')).toFixed(2)}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
